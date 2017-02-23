@@ -33,14 +33,14 @@ describe('Test params values', () => {
 
       expect(wrapInit).to.throw(Error, /param is required/);
     })
-  })
+  });
 
   describe('when I pass invalid fileToParse param', () => {
     it('should thrown invalid fileToParse param error', () => {
       let wrapInit = () => { new Library({fileToParse: true, columnsToMatch: true}) }
 
       expect(wrapInit).to.throw(Error, /invalid fileToParse param/);
-    })
+    });
   });
 
   describe('when I pass invalid columnsToMatch param', () => {
@@ -62,15 +62,19 @@ describe('Test read method', () => {
         'B':'City',
         'C':'Detail Address',
         'D':'Holder Name'
-      }}
-    );
+      }});
+
+    lib.read();
   });
 
-  it('should load rows', () => {
-    lib.read();
+  it('should load rows property', () => {
     expect(lib.rows).to.have.length.above(0);
-  })
-})
+  });
+
+  it.only('should load rows with specified Columns', () => {
+    expect(lib.rows[0]).to.have.all.keys('Province', 'City', 'Detail Address', 'Holder Name');
+  });
+});
 
 describe('Test validate method', () => {
   before(() => {

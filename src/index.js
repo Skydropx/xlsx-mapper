@@ -5,7 +5,7 @@ export default class Library {
     this._validateArgs(args);
     this.fileToParse = args.fileToParse;
     this.columnsToMatch = args.columnsToMatch;
-    this.rows = []
+    this.rows = [];
   }
 
   read() {
@@ -14,7 +14,15 @@ export default class Library {
     
     workbook.SheetNames.forEach(sheetName => {
       let worksheet = workbook.Sheets[sheetName];
-      this.rows.push(XL.utils.sheet_to_json(worksheet));
+      
+      XL.utils.sheet_to_json(worksheet).forEach(row => {
+        let obj = {};
+        let key;
+
+        for (key in this.columnsToMatch) obj[this.columnsToMatch[key]] = row[this.columnsToMatch[key]];
+        
+        this.rows.push(obj);
+      });
     });
   }
 
