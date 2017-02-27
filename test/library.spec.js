@@ -113,7 +113,9 @@ describe('Test convert method', () => {
         'A':'Province',
         'B':'City',
         'C':'Detail Address',
-        'D':'Holder Name'
+        'D':'Holder Name',
+        'E': 'Receiver Phone',
+        'F': 'Postal'
       }
     });
     lib.read();
@@ -125,9 +127,6 @@ describe('Test convert method', () => {
 
   it.only('should contain the columns', () => {
     let strExcel = lib.convert();
-    
-    console.log(strExcel);
-
     XLSX.writeFile(strExcel, "demo.xlsx", {bookType:'xlsx', type:'buffer'});
     
     expect("").to.be.a('string');
