@@ -11,11 +11,10 @@ export default class Library {
 
   read() {
     let workbook = Xlsx.readFile(this.fileToParse.fileName);
-    let aCol = this.columnsToMatch['A'];
-    
+
     workbook.SheetNames.forEach(sheetName => {
       let worksheet = workbook.Sheets[sheetName];
-      
+
       Xlsx.utils.sheet_to_json(worksheet).forEach(row => {
         let obj = {};
         let key;
@@ -27,13 +26,13 @@ export default class Library {
     });
   }
 
-  convert () {
+  convert() {
     let skydropExcel = new SkydropExcel();
 
     return skydropExcel.convert(this);
   }
 
-  _validateArgs (args) {
+  _validateArgs(args) {
     if (args === undefined || args === {}) {
       throw new Error('empty arguments is not allowed');
     };
