@@ -15,9 +15,10 @@ function s2ab(s) {
 
 export default class {
   convert (reader) {
+    this.reader = reader;
     let workbook = new Workbook();
     let wbout;
-    let worksheet = this._sheetFromRows(reader);
+    let worksheet = this._sheetFromRows();
 
     workbook.SheetNames.push('Stories');
     workbook.Sheets['Stories'] = worksheet;
@@ -25,37 +26,39 @@ export default class {
     return workbook;
   }
 
-  _sheetFromRows (reader) {
-    let Province = 1;
-    let City = 2;
-    let detailAddress = 3;
-    let holderName = 4;
-    let i = 0;
+  _sheetFromRows () {
     let ws = {};
     let range = {s: {c:0, r:0}, e: {c:0, r:0 }};
 
-    for (let R = 0; R != reader.rows.length; ++R) {
+    for (let R = 0; R != this.reader.rows.length; ++R) {
       if (range.e.r < R) range.e.r = R;
-        range.e.c = 3;
-
-        console.log(reader.rows[R]['City'])
-        var cell = { v: reader.rows[R]['City'] };
-
-        /* create the correct cell reference */
-        var cell_ref = Xlsx.utils.encode_cell({c:3,r:R});
-        cell.t = 's';
-
-        /* add to structure */
-        ws[cell_ref] = cell;
+        range.e.c = 30; // this should reflect the max col
+        let cell = this._prepareWorkSheetRow(R, 1);
+        ws[cell.ref] = cell.cell;
     }
 
     ws['!ref'] = Xlsx.utils.encode_range(range);
-    // reader.rows.forEach((row) => {
-    //   let cell_ref = Xlsx.utils.encode_cell({c: City, r: i});
-    //   ws[cell_ref] = {v: 'Hola', t:'s'};
-    //   i++;
-    // });
 
     return ws;
+  }
+
+  _prepareWorkSheetRow(idx, colIdx) {
+    let col = this._fromCells()[colIdx];
+    let cell = { v: this.reader.rows[idx][col] };
+    let cell_ref = Xlsx.utils.encode_cell({c: colIdx,r:idx});
+    cell.t = 's';
+
+    return {cell: cell, ref: cell_ref};
+  }
+
+  _fromCells() {
+    return [
+      'Province',
+      'City',
+      'Detail Address',
+      'Postal',
+      'Holder Name',
+      'Receiver Phone'
+    ]
   }
 }
