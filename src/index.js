@@ -1,4 +1,5 @@
-import XL from 'xlsx';
+import Xlsx from 'xlsx';
+import SkydropExcel from './SkydropExcel';
 
 export default class Library {
   constructor(args) {
@@ -9,24 +10,30 @@ export default class Library {
   }
 
   read() {
-    let workbook = XL.readFile(this.fileToParse.fileName);
+    let workbook = Xlsx.readFile(this.fileToParse.fileName);
     let aCol = this.columnsToMatch['A'];
     
     workbook.SheetNames.forEach(sheetName => {
       let worksheet = workbook.Sheets[sheetName];
       
-      XL.utils.sheet_to_json(worksheet).forEach(row => {
+      Xlsx.utils.sheet_to_json(worksheet).forEach(row => {
         let obj = {};
         let key;
 
         for (key in this.columnsToMatch) obj[this.columnsToMatch[key]] = row[this.columnsToMatch[key]];
-        
+
         this.rows.push(obj);
       });
     });
   }
 
-  _validateArgs(args) {
+  convert () {
+    let skydropExcel = new SkydropExcel();
+
+    return skydropExcel.convert(this);
+  }
+
+  _validateArgs (args) {
     if (args === undefined || args === {}) {
       throw new Error('empty arguments is not allowed');
     };

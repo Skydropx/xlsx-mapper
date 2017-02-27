@@ -3,6 +3,7 @@
 import chai from 'chai';
 import Library from '../lib/Library.js';
 import path from 'path';
+import XLSX from 'xlsx';
 
 chai.expect();
 
@@ -32,7 +33,7 @@ describe('Test params values', () => {
       let wrapInit = () => { new Library({skikRequiredArguments: true}) }
 
       expect(wrapInit).to.throw(Error, /param is required/);
-    })
+    });
   });
 
   describe('when I pass invalid fileToParse param', () => {
@@ -71,7 +72,7 @@ describe('Test read method', () => {
     expect(lib.rows).to.have.length.above(0);
   });
 
-  it.only('should load rows with specified Columns', () => {
+  it('should load rows with specified Columns', () => {
     expect(lib.rows[0]).to.have.all.keys('Province', 'City', 'Detail Address', 'Holder Name');
   });
 });
@@ -100,11 +101,35 @@ describe('Test validate method', () => {
     it('there is not errors', () => {
       lib.validate();
     });
-  })
+  });
 });
 
 describe('Test convert method', () => {
-  it('should return an excel file', () => {
+  before(() => {
+    let fileName = path.resolve('./test/assets/amazon.xlsx');
+    lib = new Library({
+      fileToParse: {fileName},
+      columnsToMatch: {
+        'A':'Province',
+        'B':'City',
+        'C':'Detail Address',
+        'D':'Holder Name'
+      }
+    });
+    lib.read();
+  });
 
+  it('should return an excel file', () => {
+    expect(lib.convert()).to.be.a('string');
+  });
+
+  it.only('should contain the columns', () => {
+    let strExcel = lib.convert();
+    
+    console.log(strExcel);
+
+    XLSX.writeFile(strExcel, "demo.xlsx", {bookType:'xlsx', type:'buffer'});
+    
+    expect("").to.be.a('string');
   });
 });
