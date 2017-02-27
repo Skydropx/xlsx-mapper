@@ -8,23 +8,26 @@ function Workbook() {
 
 export default class {
   convert(reader) {
-    let workbook = new Workbook();
-    let worksheet = this._sheetFromRows();
-
     this.reader = reader;
 
-    workbook.SheetNames.push('Stories');
-    workbook.Sheets['Stories'] = worksheet;
+    let workbook = new Workbook();
+
+    this.reader.rows.forEach(topRows => {
+      Object.keys(topRows).forEach(sheetName => {
+        workbook.SheetNames.push(sheetName);
+        workbook.Sheets[sheetName] = this._sheetFromRows(topRows[sheetName]);
+      });
+    });
 
     return workbook;
   }
 
-  _sheetFromRows() {
+  _sheetFromRows(rows) {
     let ws = {};
-    let range = {s: {c: 0, r: 0}, e: {c: 0, r: this.reader.rows.length }};
+    let range = {s: {c: 0, r: 0}, e: {c: 0, r: rows.length }};
 
-    for (let R = 0; R !== this.reader.rows.length; ++R) {
-      let skydropCells = this.toSkydropCells(this.reader.rows[R]);
+    for (let R = 0; R !== rows.length; ++R) {
+      let skydropCells = this.toSkydropCells(rows[R]);
 
       range.e.c = skydropCells.length;
       for (let C = 0; C !== skydropCells.length; ++C) {

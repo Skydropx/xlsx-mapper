@@ -14,16 +14,24 @@ export default class Library {
 
     workbook.SheetNames.forEach(sheetName => {
       let worksheet = workbook.Sheets[sheetName];
+      let obj = {};
+      obj[sheetName] = [];
 
       Xlsx.utils.sheet_to_json(worksheet).forEach(row => {
-        let obj = {};
         let key;
+        let inObj = {};
 
-        for (key in this.columnsToMatch) obj[this.columnsToMatch[key]] = row[this.columnsToMatch[key]];
+        for (key in this.columnsToMatch) {
+          inObj[this.columnsToMatch[key]] = row[this.columnsToMatch[key]];
+        }
 
-        this.rows.push(obj);
+        obj[sheetName].push(inObj);
       });
+
+      this.rows.push(obj);
     });
+
+    console.log(this.rows[0]['ISAAC GARZA'].length)
   }
 
   convert() {
