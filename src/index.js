@@ -30,8 +30,6 @@ export default class Library {
 
       this.rows.push(obj);
     });
-
-    console.log(this.rows[0]['ISAAC GARZA'].length)
   }
 
   convert() {

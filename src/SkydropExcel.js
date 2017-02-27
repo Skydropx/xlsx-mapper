@@ -77,4 +77,12 @@ export default class {
       'car'
     ];
   }
+
+  _findAddress() {
+    
+  }
+
+  _findNeighborhood() {
+    
+  }
 }

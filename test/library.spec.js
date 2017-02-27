@@ -126,10 +126,13 @@ describe('Test convert method', () => {
     expect(lib.convert()).to.be.a('string');
   });
 
-  it.only('should contain the columns', () => {
+  it('should contain the columns', () => {
     let strExcel = lib.convert();
     XLSX.writeFile(strExcel, "demo.xlsx", {bookType:'xlsx', type:'buffer'});
+    
+    console.log(strExcel);
     
     expect("").to.be.a('string');
   });
 });
+
