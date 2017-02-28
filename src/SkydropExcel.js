@@ -40,7 +40,7 @@ export default class {
 
   _sheetFromRows(rows) {
     let ws = {};
-    let range = {s: {c: 0, r: 0}, e: {c: 0, r: rows.length }};
+    let range = {s: {c: 0, r: 0}, e: {c: 0, r: rows.length + 1}};
 
     for (let R = 0; R !== rows.length; ++R) {
       let skydropCells = this.toSkydropCells(rows[R]);
@@ -50,6 +50,15 @@ export default class {
         let cell = this._prepareWorkSheetRow(R, skydropCells[C], C);
 
         ws[cell.ref] = cell.cell;
+      }
+
+      if (R === (rows.length - 1)) {
+        skydropCells = this._addFixedReturn();
+        for (let C = 0; C !== skydropCells.length; ++C) {
+          let cell = this._prepareWorkSheetRow(R + 1, skydropCells[C], C);
+
+          ws[cell.ref] = cell.cell;
+        }       
       }
     }
 
@@ -65,12 +74,41 @@ export default class {
     return {cell: cell, ref: cellRef};
   }
 
+  _addFixedReturn() {
+    return [
+      'idx',
+      '55 2558 0633',// pickup
+      'AMAZON',
+      'na',
+      'Pedro Celestino Negrete 820',
+      'na',
+      'Industrial',
+      'Monterrey',
+      'na',
+      'na',
+      '55 2558 0633',// delivery
+      'AMAZON',
+      'na',
+      'Pedro Celestino Negrete 820',// street and number
+      'na',
+      'Industrial',// neighborhoodIdx
+      'Monterrey',
+      'na',
+      'na',
+      0,
+      0,
+      0,
+      0,
+      'car'
+    ];
+  }
+
   toSkydropCells(row) {
     return [
       'idx',
       '55 2558 0633',// pickup
       'AMAZON',
-      'gutelias@amazon.com',
+      'na',
       'Pedro Celestino Negrete 820',
       'na',
       'Industrial',
