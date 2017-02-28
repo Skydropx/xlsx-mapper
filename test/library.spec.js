@@ -116,7 +116,8 @@ describe('Test convert method', () => {
         'C':'Detail Address',
         'D':'Holder Name',
         'E': 'Receiver Phone',
-        'F': 'Postal'
+        'F': 'Postal',
+        'G': 'Tracking Id'
       }
     });
     lib.read();

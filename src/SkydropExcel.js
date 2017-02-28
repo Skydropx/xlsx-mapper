@@ -80,12 +80,12 @@ export default class {
       row['Receiver Phone'],// delivery
       row['Holder Name'],
       'na',
-      row['Detail Address'].split(',')[0],// street and number
+      row['Detail Address'],// street and number
       'na',
-      row['Detail Address'].split(',')[1],// neighborhoodIdx
+      row['Detail Address'],// neighborhoodIdx
       row['City'],
       'na',
-      'na',
+      row['Tracking Id'],
       0,
       0,
       0,
