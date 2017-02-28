@@ -38,6 +38,12 @@ export default class Library {
     return skydropExcel.convert(this);
   }
 
+  convertToArrayOfSheets() {
+    let skydropExcel = new SkydropExcel();
+
+    return skydropExcel.convertToArrayOfSheets(this);
+  }
+
   _validateArgs(args) {
     if (args === undefined || args === {}) {
       throw new Error('empty arguments is not allowed');

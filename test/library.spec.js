@@ -136,26 +136,12 @@ describe('Test convert method', () => {
   });
 
   it.only('should create file per sheet', () => {
-    let strExcel = lib.convert();
+    let workbooks = lib.convertToArrayOfSheets();
 
-    let sheetName = strExcel.SheetNames[0];
-    let sheets = {};
-    sheets[sheetName] = strExcel.Sheets[sheetName];
-    let xls = {
-      SheetNames: [strExcel.SheetNames[0]],
-      Sheets: sheets
-    }
-    console.log(xls)
-    XLSX.writeFile(xls, "demo.xlsx", {bookType:'xlsx', type:'buffer'});
-
-    // console.log(Object.keys(strExcel));
-    // console.log(strExcel['Props']);
-    // console.log(strExcel['SheetNames']);
-    // console.log(strExcel['Sheets']);
-    // strExcel['SheetNames'].forEach((sheet) => {
-    //   console.log(strExcel['Sheets'][sheet])
-    // });
-
-    expect("").to.be.a('string');
+    workbooks.forEach(row => {
+      console.log(row['SheetNames'][0]);
+      XLSX.writeFile(row, `${row['SheetNames'][0]}.xlsx`, {bookType:'xlsx', type:'buffer'});
+    });
+    console.log(workbooks[0]['SheetNames'][0]);
   });
 });

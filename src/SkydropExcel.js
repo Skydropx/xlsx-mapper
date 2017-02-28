@@ -22,6 +22,22 @@ export default class {
     return workbook;
   }
 
+  convertToArrayOfSheets(reader) {
+    this.reader = reader;
+    let workbooks = [];
+
+    this.reader.rows.forEach(topRows => {
+      Object.keys(topRows).forEach(sheetName => {
+        let workbook = new Workbook();
+        workbook.SheetNames.push(sheetName);
+        workbook.Sheets[sheetName] = this._sheetFromRows(topRows[sheetName]);
+        workbooks.push(workbook);
+      });
+    });
+
+    return workbooks;
+  }
+
   _sheetFromRows(rows) {
     let ws = {};
     let range = {s: {c: 0, r: 0}, e: {c: 0, r: rows.length }};
