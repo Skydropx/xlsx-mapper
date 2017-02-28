@@ -126,10 +126,37 @@ describe('Test convert method', () => {
     expect(lib.convert()).to.be.a('string');
   });
 
-  it.only('should contain the columns', () => {
+  it('should contain the columns', () => {
     let strExcel = lib.convert();
     XLSX.writeFile(strExcel, "demo.xlsx", {bookType:'xlsx', type:'buffer'});
-    
+
+    expect("").to.be.a('string');
+  });
+
+  it.only('should create file per sheet', () => {
+    let strExcel = lib.convert();
+
+
+
+
+    let sheetName = strExcel.SheetNames[0];
+    let sheets = {};
+    sheets[sheetName] = strExcel.Sheets[sheetName];
+    let xls = {
+      SheetNames: [strExcel.SheetNames[0]],
+      Sheets: sheets
+    }
+    console.log(xls)
+    XLSX.writeFile(xls, "demo.xlsx", {bookType:'xlsx', type:'buffer'});
+
+    // console.log(Object.keys(strExcel));
+    // console.log(strExcel['Props']);
+    // console.log(strExcel['SheetNames']);
+    // console.log(strExcel['Sheets']);
+    // strExcel['SheetNames'].forEach((sheet) => {
+    //   console.log(strExcel['Sheets'][sheet])
+    // });
+
     expect("").to.be.a('string');
   });
 });
