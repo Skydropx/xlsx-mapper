@@ -1,7 +1,7 @@
 import XLSX from 'xlsx';
 import SkydropExcel from './SkydropExcel';
 
-export default class Library {
+export default class XLSXMapper {
   constructor(args) {
     // this._validateArgs(args);
     this.fileToParse = args.fileToParse;

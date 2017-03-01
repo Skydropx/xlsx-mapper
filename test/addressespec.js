@@ -72,7 +72,7 @@ let exp1 = /(\b[^,]+\b)/g
 
 let nullAddresses1 = addresses.filter(row => {
   let result = row.match(exp1)
-
+  console.log(row);
   console.log(result);
   console.log('-------------------------------------')
   result === null;
