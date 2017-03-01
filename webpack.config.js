@@ -45,7 +45,12 @@ const config = {
   },
   plugins: plugins,
   externals: {
-    xlsx: 'xlsx'
+    xlsx: {
+      root: 'XLSX',
+      commonjs2: 'xlsx',
+      commonjs: 'xlsx',
+      amd: 'xlsx'
+    }
   }
 };
 
