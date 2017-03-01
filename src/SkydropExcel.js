@@ -103,7 +103,19 @@ export default class {
     ];
   }
 
+  parseAddress(address) {
+    let words = address.split(' ');
+    let numberIndex = words.findIndex(word => /\d+/.test(word));
+    let result = [];
+
+    result.push(words.slice(0, numberIndex + 1).join(' '))
+    result.push(words.slice(numberIndex + 1).join(' '));
+
+    return result;
+  }
+
   toSkydropCells(row) {
+    let address = this.parseAddress(row['Detail Address']);
     return [
       'idx',
       '55 2558 0633',// pickup
@@ -118,9 +130,9 @@ export default class {
       row['Receiver Phone'],// delivery
       row['Holder Name'],
       'na',
-      row['Detail Address'],// street and number
+      address.shift(),// street and number
       'na',
-      row['Detail Address'],// neighborhoodIdx
+      address.join(' '),// neighborhoodIdx
       row['City'],
       'na',
       row['Tracking Id'],

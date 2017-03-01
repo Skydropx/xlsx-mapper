@@ -1,23 +1,30 @@
-import Xlsx from 'xlsx';
+import XLSX from 'xlsx';
 import SkydropExcel from './SkydropExcel';
 
 export default class Library {
   constructor(args) {
-    this._validateArgs(args);
+    // this._validateArgs(args);
     this.fileToParse = args.fileToParse;
     this.columnsToMatch = args.columnsToMatch;
     this.rows = [];
+    this.type = args.type || 'node';
   }
 
   read() {
-    let workbook = Xlsx.readFile(this.fileToParse.fileName);
+    let workbook;
+
+    if (this.type === 'browser') {
+      workbook = XLSX.read(this.fileToParse.fileData, {type: 'binary'});
+    } else {
+      workbook = XLSX.readFile(this.fileToParse.fileName);
+    }
 
     workbook.SheetNames.forEach(sheetName => {
       let worksheet = workbook.Sheets[sheetName];
       let obj = {};
       obj[sheetName] = [];
 
-      Xlsx.utils.sheet_to_json(worksheet).forEach(row => {
+      XLSX.utils.sheet_to_json(worksheet).forEach(row => {
         let key;
         let inObj = {};
 
