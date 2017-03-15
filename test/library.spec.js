@@ -1,8 +1,8 @@
 /*global describe, it, before */
 
 import chai from 'chai';
-// import Library from '../lib/Library.js';
-import Library from '../src/index.js'
+import Library from '../lib/XLSXMapper.js';
+//import Library from '../src/index.js'
 import path from 'path';
 import XLSX from 'xlsx';
 

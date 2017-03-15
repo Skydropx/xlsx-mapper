@@ -44,14 +44,25 @@ const config = {
     extensions: ['.json', '.js']
   },
   plugins: plugins,
-  externals: {
+  node: {
+    fs: 'empty'
+  },
+  externals: [
+    {
+      './cptable': 'var cptable'
+    }
+  ]
+};
+
+module.exports = config;
+
+/*
+add externals just when goes to production
+externals: {
     xlsx: {
       root: 'XLSX',
       commonjs2: 'xlsx',
       commonjs: 'xlsx',
       amd: 'xlsx'
     }
-  }
-};
-
-module.exports = config;
+  }*/

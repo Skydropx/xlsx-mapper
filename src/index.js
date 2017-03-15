@@ -1,4 +1,3 @@
-import XLSX from 'xlsx';
 import SkydropExcel from './SkydropExcel';
 
 export default class XLSXMapper {
@@ -8,15 +7,16 @@ export default class XLSXMapper {
     this.columnsToMatch = args.columnsToMatch;
     this.rows = [];
     this.type = args.type || 'node';
+    this.XLSX = args.xlsx;
   }
 
   read() {
     let workbook;
 
     if (this.type === 'browser') {
-      workbook = XLSX.read(this.fileToParse.fileData, {type: 'binary'});
+      workbook = this.XLSX.read(this.fileToParse.fileData, {type: 'binary'});
     } else {
-      workbook = XLSX.readFile(this.fileToParse.fileName);
+      workbook = this.XLSX.readFile(this.fileToParse.fileName);
     }
 
     workbook.SheetNames.forEach(sheetName => {
@@ -24,7 +24,7 @@ export default class XLSXMapper {
       let obj = {};
       obj[sheetName] = [];
 
-      XLSX.utils.sheet_to_json(worksheet).forEach(row => {
+      this.XLSX.utils.sheet_to_json(worksheet).forEach(row => {
         let key;
         let inObj = {};
 
