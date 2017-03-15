@@ -43,6 +43,7 @@
   },
   "homepage": "https://github.com/krasimir/webpack-library-starter",
   "dependencies": {
-    "xlsx": "^0.8.5"
+    "xlsx": "^0.8.5",
+    "script-loader": "^0.7.0"
   }
 }

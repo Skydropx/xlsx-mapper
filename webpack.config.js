@@ -37,6 +37,10 @@ const config = {
         test: /(\.jsx|\.js)$/,
         loader: "eslint-loader",
         exclude: /node_modules/
+      },
+      {
+        test: /\.exec.js$/,
+        use: [ 'script-loader' ]
       }
     ]
   },
@@ -65,4 +69,9 @@ externals: {
       commonjs: 'xlsx',
       amd: 'xlsx'
     }
+    externals: [
+    {
+      './cptable': 'var cptable'
+    }
+  ]
   }*/

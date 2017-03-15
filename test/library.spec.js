@@ -2,9 +2,11 @@
 
 import chai from 'chai';
 import Library from '../lib/XLSXMapper.js';
-//import Library from '../src/index.js'
+
+require('script-loader!../node_modules/xlsx/dist/ods.js')
+require('script-loader!../node_modules/xlsx/dist/cpexcel.js')
+require('script-loader!../node_modules/xlsx/dist/xlsx.core.min.js')
 import path from 'path';
-import XLSX from 'xlsx';
 
 chai.expect();
 
@@ -91,58 +93,8 @@ describe('Test validate method', () => {
       }}
     );
   });
-
-  describe('should return errors when', () => {
-    it('', () => {
-      lib.validate();
-    });
-  });
-
-  describe('should return empty array when', () => {
-    it('there is not errors', () => {
-      lib.validate();
-    });
-  });
 });
 
 describe('Test convert method', () => {
-  before(() => {
-    let fileName = path.resolve('./test/assets/amazon.xlsx');
-    lib = new Library({
-      fileToParse: {fileName},
-      columnsToMatch: {
-        'A':'Province',
-        'B':'City',
-        'C':'Detail Address',
-        'D':'Holder Name',
-        'E': 'Receiver Phone',
-        'F': 'Postal',
-        'G': 'Tracking Id'
-      }
-    });
-    lib.read();
-  });
-
-  it('should return an excel file', () => {
-    expect(lib.convert()).to.be.a('string');
-  });
-
-  it('should contain the columns', () => {
-    let strExcel = lib.convert();
-    XLSX.writeFile(strExcel, "demo.xlsx", {bookType:'xlsx', type:'buffer'});
-    
-    console.log(strExcel);
-    
-    expect("").to.be.a('string');
-  });
-
-  it.only('should create file per sheet', () => {
-    let workbooks = lib.convertToArrayOfSheets();
-
-    workbooks.forEach(row => {
-      console.log(row['SheetNames'][0]);
-      XLSX.writeFile(row, `${row['SheetNames'][0]}.xlsx`, {bookType:'xlsx', type:'buffer'});
-    });
-    console.log(workbooks[0]['SheetNames'][0]);
-  });
+  
 });

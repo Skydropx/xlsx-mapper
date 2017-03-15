@@ -1,4 +1,6 @@
-import Xlsx from 'xlsx';
+import 'script-loader!../node_modules/xlsx/dist/ods.js'
+import 'script-loader!../node_modules/xlsx/dist/cpexcel.js'
+import 'script-loader!../node_modules/xlsx/dist/xlsx.core.min.js'
 
 function Workbook() {
   if (!(this instanceof Workbook)) return new Workbook();
@@ -9,7 +11,6 @@ function Workbook() {
 export default class {
   convert(reader) {
     this.reader = reader;
-
     let workbook = new Workbook();
 
     this.reader.rows.forEach(topRows => {
@@ -62,14 +63,14 @@ export default class {
       }
     }
 
-    ws['!ref'] = Xlsx.utils.encode_range(range);
+    ws['!ref'] = XLSX.utils.encode_range(range);
 
     return ws;
   }
 
   _prepareWorkSheetRow(idx, col, colIdx) {
     let cell = { v: col, t: 's'};
-    let cellRef = Xlsx.utils.encode_cell({c: colIdx, r: idx});
+    let cellRef = XLSX.utils.encode_cell({c: colIdx, r: idx});
 
     return {cell: cell, ref: cellRef};
   }

@@ -21,6 +21,7 @@
           var data = e.target.result;
           var opts = {
             type: "browser",
+            xlsx: XLSX,
             fileToParse: {fileData: data},
             columnsToMatch: {
               'A':'Province',
@@ -30,7 +31,9 @@
               'E': 'Receiver Phone',
               'F': 'Postal',
               'G': 'Tracking Id'
-            }
+            },
+            grouperType: 'column',
+            column: 'Associate'
           };
 
           var xlsxMapper = new XLSXMapper(opts);

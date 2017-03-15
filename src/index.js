@@ -1,41 +1,82 @@
 import SkydropExcel from './SkydropExcel';
+// import 'script-loader!../node_modules/xlsx/dist/xlsx.full.min.js'
+import 'script-loader!../node_modules/xlsx/dist/ods.js'
+import 'script-loader!../node_modules/xlsx/dist/cpexcel.js'
+import 'script-loader!../node_modules/xlsx/dist/xlsx.core.min.js'
 
 export default class XLSXMapper {
   constructor(args) {
-    // this._validateArgs(args);
+    this._validateArgs(args);
     this.fileToParse = args.fileToParse;
     this.columnsToMatch = args.columnsToMatch;
     this.rows = [];
     this.type = args.type || 'node';
-    this.XLSX = args.xlsx;
+    this.XLSX = args.xlsx || XLSX
+    this.grouperType = args.grouperType; // should be column or sheet
+    this.column = args.column
   }
 
   read() {
     let workbook;
-
+    
     if (this.type === 'browser') {
       workbook = this.XLSX.read(this.fileToParse.fileData, {type: 'binary'});
     } else {
       workbook = this.XLSX.readFile(this.fileToParse.fileName);
     }
-
-    workbook.SheetNames.forEach(sheetName => {
+    
+    if (this.grouperType === 'column') {
+      let sheetName = workbook.SheetNames[0];
       let worksheet = workbook.Sheets[sheetName];
-      let obj = {};
-      obj[sheetName] = [];
+      let obj = {
+        [sheetName]: []
+      };
+      let excelRows = this.XLSX.utils.sheet_to_json(worksheet)
 
-      this.XLSX.utils.sheet_to_json(worksheet).forEach(row => {
-        let key;
-        let inObj = {};
+      this.groupByColumn(excelRows)
+    } else {
+      workbook.SheetNames.forEach(sheetName => {
+        let worksheet = workbook.Sheets[sheetName];
+        let obj = {};
+        obj[sheetName] = [];
 
-        for (key in this.columnsToMatch) {
-          inObj[this.columnsToMatch[key]] = row[this.columnsToMatch[key]];
-        }
+        this.XLSX.utils.sheet_to_json(worksheet).forEach(row => {
+          let key;
+          let inObj = {};
 
-        obj[sheetName].push(inObj);
+          for (key in this.columnsToMatch) {
+            inObj[this.columnsToMatch[key]] = row[this.columnsToMatch[key]];
+          }
+
+          obj[sheetName].push(inObj);
+        });
+        this.rows.push(obj);
       });
+    }
+  }
 
-      this.rows.push(obj);
+  groupByColumn(excelRows) {
+    let uniqCols = excelRows.map(row => row[this.column])
+      .filter((value, index, self) => {return self.indexOf(value) === index});
+
+    uniqCols.forEach(col => {
+      let obj = {
+        [col]: []
+      };
+
+      excelRows.forEach(row => {
+        if (row[this.column] === col) {
+          let key;
+          let inObj = {};
+
+          for (key in this.columnsToMatch) {
+            inObj[this.columnsToMatch[key]] = row[this.columnsToMatch[key]];
+          }
+
+          obj[col].push(inObj);
+        }
+      });
+      this.rows.push(obj)
     });
   }
 
