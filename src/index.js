@@ -8,7 +8,7 @@ export default class XLSXMapper {
   constructor(args) {
     this._validateArgs(args);
     this.fileToParse = args.fileToParse;
-    this.columnsToMatch = args.columnsToMatch;
+    this.columnsToTransform = args.columnsToTransform;
     this.rows = [];
     this.type = args.type || 'node';
     this.XLSX = args.xlsx || XLSX
@@ -61,21 +61,8 @@ export default class XLSXMapper {
 
     uniqCols.forEach(col => {
       let obj = {
-        [col]: []
+        [col]: excelRows.filter(row => row[this.column] === col)
       };
-
-      excelRows.forEach(row => {
-        if (row[this.column] === col) {
-          let key;
-          let inObj = {};
-
-          for (key in this.columnsToMatch) {
-            inObj[this.columnsToMatch[key]] = row[this.columnsToMatch[key]];
-          }
-
-          obj[col].push(inObj);
-        }
-      });
       this.rows.push(obj)
     });
   }
@@ -101,7 +88,7 @@ export default class XLSXMapper {
       throw new Error('fileToParse param is required');
     };
 
-    if (args.columnsToMatch === undefined || args.columnsToMatch === {}) {
+    if (args.columnsToTransform === undefined || args.columnsToTransform === {}) {
       throw new Error('columnsToMatch param is required');
     }
 
@@ -109,7 +96,7 @@ export default class XLSXMapper {
       throw new Error('invalid fileToParse param');
     };
 
-    if (typeof args.columnsToMatch !== 'object') {
+    if (typeof args.columnsToTransform !== 'object') {
       throw new Error('invalid columnsToMatch param');
     };
   }
