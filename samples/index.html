@@ -55,7 +55,7 @@
 
           var xlsxMapper = new XLSXMapper(opts);
           xlsxMapper.read();
-          console.log(xlsxMapper.rows)
+          console.log(xlsxMapper.convertToArrayOfSheets())
         }
         fileReader.readAsBinaryString(el.files[0]);
       };

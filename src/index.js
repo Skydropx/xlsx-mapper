@@ -41,16 +41,16 @@ export default class XLSXMapper {
         obj[sheetName] = [];
 
         this.XLSX.utils.sheet_to_json(worksheet).forEach(row => {
-          let key;
+          this.rows.push(row)
+          /*let key;
           let inObj = {};
 
           for (key in this.columnsToMatch) {
             inObj[this.columnsToMatch[key]] = row[this.columnsToMatch[key]];
           }
 
-          obj[sheetName].push(inObj);
+          obj[sheetName].push(inObj);*/
         });
-        this.rows.push(obj);
       });
     }
   }
@@ -60,7 +60,7 @@ export default class XLSXMapper {
       .filter((value, index, self) => {return self.indexOf(value) === index});
 
     uniqCols.forEach(col => {
-      let obj = {
+      let obj = { 
         [col]: excelRows.filter(row => row[this.column] === col)
       };
       this.rows.push(obj)
