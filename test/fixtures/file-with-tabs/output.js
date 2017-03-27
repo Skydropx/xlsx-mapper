@@ -1,4 +1,4 @@
-export default { 'Issac Garza': 
+export default [{ 'Issac Garza': 
    [ { Province: 'NUEVO LEÓN',
        City: 'SAN NICOLÁS DE LOS GARZA',
        'Detail Address': 'AV. ADOLFO LOPEZ MATEOS 4207 - 7, RINCÓN DEL ORIENTE',
@@ -110,4 +110,4 @@ export default { 'Issac Garza':
      { Province: 'NUEVO LEÓN',
        City: 'SAN NICOLÁS DE LOS GARZA',
        'Detail Address': 'Lago de Montebello 119, SAN BENITO DEL LAGO',
-       'Holder Name': 'Fabián Carrillo' } ] }
+       'Holder Name': 'Fabián Carrillo' } ] }]
