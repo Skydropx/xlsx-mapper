@@ -1,28 +1,28 @@
-/*global describe, it, before */
+/* global describe, it, before */
 
-import chai from 'chai';
-import Library from '../lib/XLSXMapper.js';
+import chai from 'chai'
+import Library from '../lib/XLSXMapper.js'
 
 import XLSX from 'xlsx'
-import path from 'path';
+import path from 'path'
 
-chai.expect();
+chai.expect()
 
-const expect = chai.expect;
+const expect = chai.expect
 
-var workbook = XLSX.readFile('./test/assets/amazon.xlsx');
-let lib;
+let workbook = XLSX.readFile('./test/assets/amazon.xlsx')
+let lib
 
 describe('Test filter method', () => {
   before(() => {
-    let fileName = path.resolve('./test/assets/amazon.xlsx');
+    let fileName = path.resolve('./test/assets/amazon.xlsx')
     lib = new Library({
       fileToParse: { fileName },
       columnsToTransform: {
-        'A':'Province',
-        'B':'City',
-        'C':'Detail Address',
-        'D':'Holder Name'
+        'A': 'Province',
+        'B': 'City',
+        'C': 'Detail Address',
+        'D': 'Holder Name'
       },
       type: 'node',
       xlsx: XLSX,
@@ -30,20 +30,18 @@ describe('Test filter method', () => {
         columns: ['City'],
         values: ['CIUDAD GENERAL ESCOBEDO', 'SAN NICOLÁS DE LOS GARZA']
       }
-    });
+    })
 
-    lib.read();
+    lib.read()
     console.log(lib.rows[0])
-    /*sinon.stub(lib, '_readWorkbook', () => {
+    /* sinon.stub(lib, '_readWorkbook', () => {
       return {
 
       }
-    })*/
-  });
+    }) */
+  })
 
   it('should load rows property', () => {
-    expect(lib.rows).to.have.length.above(0);
-  });
-
-  it('should ')
+    expect(lib.rows).to.have.length.above(0)
+  })
 })
