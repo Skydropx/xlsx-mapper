@@ -5,7 +5,7 @@ import Library from '../lib/XLSXMapper.js';
 
 import XLSX from 'xlsx'
 import path from 'path';
-
+import FilteredResult from './fixtures/file-with-tabs/output.js'
 chai.expect();
 
 const expect = chai.expect;
@@ -15,7 +15,7 @@ let lib;
 
 describe('Test filter method', () => {
   before(() => {
-    let fileName = path.resolve('./test/assets/amazon.xlsx');
+    let fileName = path.resolve('./test/fixtures/file-with-tabs/input.xlsx');
     lib = new Library({
       fileToParse: { fileName },
       columnsToTransform: {
@@ -33,7 +33,9 @@ describe('Test filter method', () => {
     });
 
     lib.read();
-    console.log(lib.rows[0])
+    console.log(FilteredResult)
+    console.log(lib.rows[0]);
+    
     /*sinon.stub(lib, '_readWorkbook', () => {
       return {
 
