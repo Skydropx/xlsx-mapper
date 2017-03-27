@@ -19,6 +19,7 @@ export default class XLSXMapper {
 
   read () {
     let workbook = this._readWorkbook()
+    this.rows = []
 
     if (this.grouperType === 'column') {
       this._groupByColumn(workbook)
@@ -29,6 +30,7 @@ export default class XLSXMapper {
     if (this.filterOpts) {
       this._filterRows()
     }
+    return this.rows
   }
 
   _filterRows () {

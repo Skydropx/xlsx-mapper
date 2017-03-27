@@ -2,7 +2,7 @@ import chai from 'chai'
 import XLSXMapper from '../lib/XLSXMapper.js'
 import XLSX from 'xlsx'
 import path from 'path';
-import ExpectedResult from './fixtures/file-with-tabs/output.js'
+import expectedResult from './fixtures/file-with-tabs/output.js'
 chai.expect();
 
 const expect = chai.expect
@@ -18,16 +18,25 @@ describe('Test filter method', () => {
       'D': 'Holder Name'
     },
     type: 'node',
-    xlsx: XLSX,
-    filter: {
+    xlsx: XLSX
+  })
+  let unfilteredResults = xlsxMapper.read()
+
+  it('should make a partial match filtering by City', () => {
+    xlsxMapper.filterOpts = {
       columns: ['City'],
       values: ['CIUDAD GENERAL ESCOBEDO', 'SAN NICOLÁS DE LOS GARZA']
     }
+    xlsxMapper.read()
+    expect(xlsxMapper.rows).to.deep.equal(expectedResult)
   })
 
-  xlsxMapper.read();
-
-  it('should load rows filtered by City', () => {
-    expect(xlsxMapper.rows).to.deep.equal(ExpectedResult)
+  it('should make a full match filtering by City', () => {
+    xlsxMapper.filterOpts = {
+      columns: ['City'],
+      values: ['CIUDAD GENERAL ESCOBEDO', 'General Escobedo', 'SAN NICOLÁS DE LOS GARZA']
+    }
+    xlsxMapper.read()
+    expect(xlsxMapper.rows).to.deep.equal(unfilteredResults)
   })
 })
