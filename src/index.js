@@ -11,12 +11,47 @@ export default class XLSXMapper {
     this.columnsToTransform = args.columnsToTransform;
     this.rows = [];
     this.type = args.type || 'node';
-    this.XLSX = args.xlsx || XLSX
+    this.XLSX = args.xlsx || XLSX;
     this.grouperType = args.grouperType; // should be column or sheet
-    this.column = args.column
+    this.column = args.column;
+    this.filterOpts = args.filter;
   }
 
   read() {
+    let workbook = this._readWorkbook();
+
+    if (this.grouperType === 'column') {
+      this._groupByColumn(workbook);
+    } else {
+      this._groupByTab(workbook);
+    }
+
+    if (this.filterOpts) {
+      this._filterRows();
+    }
+  }
+
+  _filterRows() {
+    this.rows.forEach((topRows, idx, self) => {
+      Object.keys(topRows).forEach((key) => {     
+        this.rows[idx] = { [key]: topRows[key].filter(this._filterRow.bind(this)) };
+      })
+    })
+  }
+
+  _filterRow(row) {
+    let match = false;
+    this.filterOpts.columns.some(col => {
+      this.filterOpts.values.some(value => {
+        match = row[col] === value;
+        return match;
+      })
+      return match;
+    })
+    return match;
+  }
+
+  _readWorkbook() {
     let workbook;
     
     if (this.type === 'browser') {
@@ -24,40 +59,15 @@ export default class XLSXMapper {
     } else {
       workbook = this.XLSX.readFile(this.fileToParse.fileName);
     }
-    
-    if (this.grouperType === 'column') {
-      let sheetName = workbook.SheetNames[0];
-      let worksheet = workbook.Sheets[sheetName];
-      let obj = {
-        [sheetName]: []
-      };
-      let excelRows = this.XLSX.utils.sheet_to_json(worksheet)
-
-      this.groupByColumn(excelRows)
-    } else {
-      workbook.SheetNames.forEach(sheetName => {
-        let worksheet = workbook.Sheets[sheetName];
-        let obj = {};
-        obj[sheetName] = [];
-
-        this.XLSX.utils.sheet_to_json(worksheet).forEach(row => {
-          this.rows.push(row)
-          /*let key;
-          let inObj = {};
-
-          for (key in this.columnsToMatch) {
-            inObj[this.columnsToMatch[key]] = row[this.columnsToMatch[key]];
-          }
-
-          obj[sheetName].push(inObj);*/
-        });
-      });
-    }
+    return workbook;
   }
 
-  groupByColumn(excelRows) {
-    let uniqCols = excelRows.map(row => row[this.column])
-      .filter((value, index, self) => {return self.indexOf(value) === index});
+  _groupByColumn(workbook) {
+    let sheetName = workbook.SheetNames[0];
+    let worksheet = workbook.Sheets[sheetName];
+    let obj = { [sheetName]: [] };
+    let excelRows = this.XLSX.utils.sheet_to_json(worksheet);
+    let uniqCols = this.uniqColumns(excelRows);
 
     uniqCols.forEach(col => {
       let obj = { 
@@ -65,6 +75,31 @@ export default class XLSXMapper {
       };
       this.rows.push(obj)
     });
+  }
+
+  _groupByTab(workbook) {
+    workbook.SheetNames.forEach(sheetName => {
+      let worksheet = workbook.Sheets[sheetName];
+      let obj = {};
+      obj[sheetName] = [];
+
+      this.XLSX.utils.sheet_to_json(worksheet).forEach(row => {
+        let key;
+        let inObj = {};
+
+        for (key in this.columnsToTransform) {
+          inObj[this.columnsToTransform[key]] = row[this.columnsToTransform[key]];
+        }
+
+        obj[sheetName].push(inObj);
+      });
+      this.rows.push(obj);
+    });
+  }
+
+  uniqColumns(rows) {
+    return rows.map(row => row[this.column])
+      .filter((value, index, self) => {return self.indexOf(value) === index});
   }
 
   convert() {
@@ -89,7 +124,7 @@ export default class XLSXMapper {
     };
 
     if (args.columnsToTransform === undefined || args.columnsToTransform === {}) {
-      throw new Error('columnsToMatch param is required');
+      throw new Error('columnsToTransform param is required');
     }
 
     if (typeof args.fileToParse !== 'object') {
@@ -97,7 +132,7 @@ export default class XLSXMapper {
     };
 
     if (typeof args.columnsToTransform !== 'object') {
-      throw new Error('invalid columnsToMatch param');
+      throw new Error('invalid columnsToTransform param');
     };
   }
 }
