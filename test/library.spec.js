@@ -21,16 +21,15 @@ describe('XLSXMapper', () => {
     xlsx: XLSX
   })
 
-  describe('#read', () => {
+  describe.only('#read', () => {
     let unfilteredResults = xlsxMapper.read()
-
     it('should make a partial match filtering by City', () => {
       xlsxMapper.filterOpts = {
         columns: ['City'],
         values: ['CIUDAD GENERAL ESCOBEDO', 'SAN NICOLÁS DE LOS GARZA']
       }
       xlsxMapper.read()
-      expect(xlsxMapper.rows).to.deep.equal(expectedResult.partialResult)
+      expect(xlsxMapper.rows).to.deep.equal(expectedResult.partialResults)
     })
 
     it('should make a full match filtering by City', () => {
@@ -39,7 +38,7 @@ describe('XLSXMapper', () => {
         values: ['CIUDAD GENERAL ESCOBEDO', 'General Escobedo', 'SAN NICOLÁS DE LOS GARZA']
       }
       xlsxMapper.read()
-      expect(xlsxMapper.rows).to.deep.equal(unfilteredResults)
+      expect(xlsxMapper.rows).to.deep.equal(expectedResult.allResults)
     })
 
     it('should make an empty match filtering by City', () => {
@@ -48,7 +47,11 @@ describe('XLSXMapper', () => {
         values: ['San Pedro Garza Garcia']
       }
       xlsxMapper.read()
-      expect(xlsxMapper.rows).to.deep.equal(expectedResult.emptyResult)
+      expect(xlsxMapper.rows).to.deep.equal(expectedResult.emptyResults)
     })
+  })
+
+  describe('#uniqColumns', () => {
+
   })
 })

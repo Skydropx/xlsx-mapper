@@ -15,6 +15,7 @@ export default class XLSXMapper {
     this.grouperType = args.grouperType // should be column or sheet
     this.column = args.column
     this.filterOpts = args.filter
+    this.group = args.group
   }
 
   read () {
