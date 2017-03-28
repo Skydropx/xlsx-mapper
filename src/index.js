@@ -18,7 +18,7 @@ export default class XLSXMapper {
     this.group = args.group
   }
 
-  read () {
+  apply () {
     let workbook = this._readWorkbook()
     this.rows = []
 
