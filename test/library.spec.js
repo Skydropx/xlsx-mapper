@@ -28,7 +28,7 @@ describe('Test filter method', () => {
       values: ['CIUDAD GENERAL ESCOBEDO', 'SAN NICOLÁS DE LOS GARZA']
     }
     xlsxMapper.read()
-    expect(xlsxMapper.rows).to.deep.equal(expectedResult)
+    expect(xlsxMapper.rows).to.deep.equal(expectedResult.partialResult)
   })
 
   it('should make a full match filtering by City', () => {
@@ -38,5 +38,14 @@ describe('Test filter method', () => {
     }
     xlsxMapper.read()
     expect(xlsxMapper.rows).to.deep.equal(unfilteredResults)
+  })
+
+  it('should make an empty match filtering by City', () => {
+    xlsxMapper.filterOpts = {
+      columns: ['City'],
+      values: ['San Pedro Garza Garcia']
+    }
+    xlsxMapper.read()
+    expect(xlsxMapper.rows).to.deep.equal(expectedResult.emptyResult)
   })
 })
