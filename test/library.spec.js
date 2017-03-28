@@ -23,6 +23,7 @@ describe('XLSXMapper', () => {
 
   describe.only('#read', () => {
     it('should make a partial match filtering by City', () => {
+      xlsxMapper.group = true
       xlsxMapper.filterOpts = {
         columns: ['City'],
         values: ['CIUDAD GENERAL ESCOBEDO', 'SAN NICOLÁS DE LOS GARZA']
@@ -32,6 +33,7 @@ describe('XLSXMapper', () => {
     })
 
     it('should make a full match filtering by City', () => {
+      xlsxMapper.group = true
       xlsxMapper.filterOpts = {
         columns: ['City'],
         values: ['CIUDAD GENERAL ESCOBEDO', 'General Escobedo', 'SAN NICOLÁS DE LOS GARZA']
@@ -41,6 +43,7 @@ describe('XLSXMapper', () => {
     })
 
     it('should make an empty match filtering by City', () => {
+      xlsxMapper.group = true
       xlsxMapper.filterOpts = {
         columns: ['City'],
         values: ['San Pedro Garza Garcia']

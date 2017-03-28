@@ -22,10 +22,12 @@ export default class XLSXMapper {
     let workbook = this._readWorkbook()
     this.rows = []
 
-    if (this.grouperType === 'column') {
+    if (this.grouperType === 'column' && this.group) {
       this._groupByColumn(workbook)
-    } else {
+    } else if (this.group) {
       this._groupByTab(workbook)
+    } else if (!this.group) {
+      this._ungroupedRows()
     }
 
     if (this.filterOpts) {
