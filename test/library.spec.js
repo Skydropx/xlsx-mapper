@@ -1,14 +1,14 @@
 import chai from 'chai'
 import XLSXMapper from '../lib/XLSXMapper.js'
 import XLSX from 'xlsx'
-import path from 'path';
+import path from 'path'
 import expectedResult from './fixtures/file-with-tabs/output.js'
-chai.expect();
+chai.expect()
 
 const expect = chai.expect
 
 describe('Test filter method', () => {
-  let fileName = path.resolve('./test/fixtures/file-with-tabs/input.xlsx');
+  let fileName = path.resolve('./test/fixtures/file-with-tabs/input.xlsx')
   let xlsxMapper = new XLSXMapper({
     fileToParse: { fileName },
     columnsToTransform: {
@@ -20,6 +20,7 @@ describe('Test filter method', () => {
     type: 'node',
     xlsx: XLSX
   })
+
   let unfilteredResults = xlsxMapper.read()
 
   it('should make a partial match filtering by City', () => {

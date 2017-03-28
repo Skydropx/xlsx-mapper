@@ -40,7 +40,10 @@ const config = {
           // enable snazzy output (default = true)
           snazzy: true,
           // other config options to be passed through to standard e.g.
-          parser: 'babel-eslint'
+          parser: 'babel-eslint',
+          env: {
+            mocha: true
+          }
         }
       },
       {

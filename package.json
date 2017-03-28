@@ -3,6 +3,9 @@
   "version": "0.2.2",
   "description": "Produce universal library with webpack and es6",
   "main": "lib/library.js",
+  "standard": {
+    "env": [ "mocha" ]
+  },
   "scripts": {
     "build": "webpack --env build",
     "dev": "webpack --progress --colors --watch --env dev",
