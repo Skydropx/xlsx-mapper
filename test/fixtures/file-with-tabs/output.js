@@ -43,5 +43,10 @@ export default {
     {
       'Issac Garza': []
     }
+  ],
+  uniqueResults: [
+    'SAN NICOLÁS DE LOS GARZA',
+    'CIUDAD GENERAL ESCOBEDO',
+    'General Escobedo'
   ]
 }

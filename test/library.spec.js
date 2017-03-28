@@ -21,7 +21,7 @@ describe('XLSXMapper', () => {
     xlsx: XLSX
   })
 
-  describe.only('#read', () => {
+  describe('#read', () => {
     it('should make a partial match filtering by City', () => {
       xlsxMapper.group = true
       xlsxMapper.filterOpts = {
@@ -54,6 +54,12 @@ describe('XLSXMapper', () => {
   })
 
   describe('#uniqColumns', () => {
+    it('should return unique Columns of City', () => {
+      xlsxMapper.group = false
+      xlsxMapper.filterOpts = null
+      let rows = xlsxMapper.read()
 
+      expect(xlsxMapper.uniqColumns(rows, 'City')).to.deep.equal(expectedResult.uniqueResults)
+    })
   })
 })

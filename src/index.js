@@ -27,13 +27,49 @@ export default class XLSXMapper {
     } else if (this.group) {
       this._groupByTab(workbook)
     } else if (!this.group) {
-      this._ungroupedRows()
+      this._ungroupedRows(workbook)
     }
 
     if (this.filterOpts) {
       this._filterRows()
     }
     return this.rows
+  }
+
+  uniqColumns (rows, column = null) {
+    let col = column ? column : this.column
+    return rows.map(row => row[col])
+      .filter((value, index, self) => {
+        return self.indexOf(value) === index
+      })
+  }
+
+  convert () {
+    let skydropExcel = new SkydropExcel()
+
+    return skydropExcel.convert(this)
+  }
+
+  convertToArrayOfSheets () {
+    let skydropExcel = new SkydropExcel()
+
+    return skydropExcel.convertToArrayOfSheets(this)
+  }
+  // private methods
+
+  _ungroupedRows (workbook) {
+    workbook.SheetNames.forEach(sheetName => {
+      let worksheet = workbook.Sheets[sheetName]
+      this.XLSX.utils.sheet_to_json(worksheet).forEach(row => {
+        let inObj = {}
+        // pening to refactor
+        for (let key in this.columnsToTransform) {
+          inObj[this.columnsToTransform[key]] = row[this.columnsToTransform[key]]
+        }
+        this.rows.push(inObj)
+      })
+      
+    })
   }
 
   _filterRows () {
@@ -100,25 +136,6 @@ export default class XLSXMapper {
       })
       this.rows.push(obj)
     })
-  }
-
-  uniqColumns (rows) {
-    return rows.map(row => row[this.column])
-      .filter((value, index, self) => {
-        return self.indexOf(value) === index
-      })
-  }
-
-  convert () {
-    let skydropExcel = new SkydropExcel()
-
-    return skydropExcel.convert(this)
-  }
-
-  convertToArrayOfSheets () {
-    let skydropExcel = new SkydropExcel()
-
-    return skydropExcel.convertToArrayOfSheets(this)
   }
 
   _validateArgs (args) {
