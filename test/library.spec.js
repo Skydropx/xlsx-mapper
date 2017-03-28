@@ -1,9 +1,9 @@
 import chai from 'chai'
 import XLSXMapper from '../lib/XLSXMapper.js'
 import XLSX from 'xlsx'
-import path from 'path';
+import path from 'path'
 import expectedResult from './fixtures/file-with-tabs/output.js'
-chai.expect();
+chai.expect()
 
 const expect = chai.expect
 
@@ -22,7 +22,6 @@ describe('XLSXMapper', () => {
   })
 
   describe.only('#read', () => {
-    let unfilteredResults = xlsxMapper.read()
     it('should make a partial match filtering by City', () => {
       xlsxMapper.filterOpts = {
         columns: ['City'],
