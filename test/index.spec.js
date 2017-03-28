@@ -8,17 +8,21 @@ chai.expect()
 const expect = chai.expect
 
 describe('XLSXMapper', () => {
-  let fileName = path.resolve('./test/fixtures/file-with-tabs/input.xlsx');
-  let xlsxMapper = new XLSXMapper({
-    fileToParse: { fileName },
-    columnsToTransform: {
-      'A': 'Province',
-      'B': 'City',
-      'C': 'Detail Address',
-      'D': 'Holder Name'
-    },
-    type: 'node',
-    xlsx: XLSX
+  let fileName = path.resolve('./test/fixtures/file-with-tabs/input.xlsx')
+  let xlsxMapper
+
+  beforeEach(() => {
+    xlsxMapper = new XLSXMapper({
+      fileToParse: { fileName },
+      columnsToTransform: {
+        'A': 'Province',
+        'B': 'City',
+        'C': 'Detail Address',
+        'D': 'Holder Name'
+      },
+      type: 'node',
+      xlsx: XLSX
+    })
   })
 
   describe('#apply', () => {
@@ -50,6 +54,45 @@ describe('XLSXMapper', () => {
       }
       xlsxMapper.apply()
       expect(xlsxMapper.rows).to.deep.equal(expectedResult.emptyResults)
+    })
+
+    it('should return mapped rows to given columns', () => {
+      xlsxMapper.group = false
+      xlsxMapper.columnsToMap = {
+        'A': { type: 'match', value: 'Province' },
+        'B': { type: 'match', value: 'City' },
+        'C': { type: 'match', value: 'Detail Address' },
+        'D': { type: 'match', value: 'Holder Name' }
+      }
+      let expected = [
+        {
+          A: 'NUEVO LEÓN',
+          B: 'SAN NICOLÁS DE LOS GARZA',
+          C: 'AV. ADOLFO LOPEZ MATEOS 4207 - 7, RINCÓN DEL ORIENTE',
+          D: 'MARGARITA APARICIO MUÑOZ'
+        },
+        {
+          A: 'NUEVO LEÓN',
+          B: 'CIUDAD GENERAL ESCOBEDO',
+          C: 'Quintas de los ciruelos 112, QUINTAS DE ANÁHUAC',
+          D: 'Maria de Lourdes Lopez Fragoso'
+        },
+        {
+          A: 'NUEVO LEÓN',
+          B: 'SAN NICOLÁS DE LOS GARZA',
+          C: 'Poniente 1019, LAS PUENTES SECTOR 1',
+          D: 'O\'brian Silva'
+        },
+        {
+          A: undefined,
+          B: 'General Escobedo',
+          C: 'Mina 222 Colonia Anahuac, Madeira',
+          D: 'Amalia Montalvo'
+        }
+      ]
+
+      xlsxMapper.apply()
+      expect(xlsxMapper.rows).to.deep.equal(expected)
     })
   })
 

@@ -16,23 +16,23 @@ export default {
     simple: {
       'A': { type: 'match', value: 'Province' },
       'B': { type: 'match', value: 'City' },
-      'C': { type: 'match', value: 'Detail Address'},
-      'D': { type: 'match', value: 'Holder Name'}
+      'C': { type: 'match', value: 'Detail Address' },
+      'D': { type: 'match', value: 'Holder Name' }
     },
     fixed: {
       'A': { type: 'match', value: 'Province' },
       'B': { type: 'match', value: 'City' },
-      'C': { type: 'match', value: 'Detail Address'},
-      'D': { type: 'match', value: 'Holder Name'},
-      'E': { type: 'fixedvalue', value: 'Any Value'}
+      'C': { type: 'match', value: 'Detail Address' },
+      'D': { type: 'match', value: 'Holder Name' },
+      'E': { type: 'fixedvalue', value: 'Any Value' }
     },
     addressesMatch: {
       'A': { type: 'match', value: 'Province' },
       'B': { type: 'match', value: 'City' },
-      'C': { type: 'match', value: 'Detail Address'},
-      'D': { type: 'match', value: 'Holder Name'},
-      'E': { type: 'transformStreet', value: 'Detail Address'},
-      'F': { type: 'transformNeighborhood', value: 'Detail Address'}
+      'C': { type: 'match', value: 'Detail Address' },
+      'D': { type: 'match', value: 'Holder Name' },
+      'E': { type: 'transformStreet', value: 'Detail Address' },
+      'F': { type: 'transformNeighborhood', value: 'Detail Address' }
     }
   }
 }

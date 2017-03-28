@@ -3,12 +3,14 @@ import SkydropExcel from './SkydropExcel'
 import 'script-loader!../node_modules/xlsx/dist/ods.js'
 import 'script-loader!../node_modules/xlsx/dist/cpexcel.js'
 import 'script-loader!../node_modules/xlsx/dist/xlsx.core.min.js'
+import ColumnMapper from './column-mapper'
 
 export default class XLSXMapper {
   constructor (args) {
     this._validateArgs(args)
     this.fileToParse = args.fileToParse
     this.columnsToTransform = args.columnsToTransform
+    this.columnsToMap = args.columnsToMap
     this.rows = []
     this.type = args.type || 'node'
     this.XLSX = args.xlsx || XLSX
@@ -33,6 +35,11 @@ export default class XLSXMapper {
     if (this.filterOpts) {
       this._filterRows()
     }
+
+    if (this.columnsToMap) {
+      this._mapColumns()
+    }
+
     return this.rows
   }
 
@@ -55,7 +62,12 @@ export default class XLSXMapper {
 
     return skydropExcel.convertToArrayOfSheets(this)
   }
+
   // private methods
+  _mapColumns () {
+    let mapper = new ColumnMapper(this.columnsToMap)
+    this.rows = mapper.map(this.rows)
+  }
 
   _ungroupedRows (workbook) {
     workbook.SheetNames.forEach(sheetName => {
@@ -68,7 +80,6 @@ export default class XLSXMapper {
         }
         this.rows.push(inObj)
       })
-      
     })
   }
 

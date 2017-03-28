@@ -1,7 +1,7 @@
 import AddressParser from './AddressParser'
 
-export default class MapperColumn {
-  constructor(columnsToTransform) {
+export default class ColumnMapper {
+  constructor (columnsToTransform) {
     this.tranformSettings = columnsToTransform
   }
 
@@ -20,7 +20,7 @@ export default class MapperColumn {
       let transformType = transformSetting.type
       let col
 
-      switch(transformType) {
+      switch (transformType) {
         case 'match' :
           obj[key] = row[transformSetting.value]
           break
@@ -41,7 +41,7 @@ export default class MapperColumn {
     return obj
   }
 
-  _mapMultipleRows(rows) {
+  _mapMultipleRows (rows) {
     return rows.map(this._mapSingleRow.bind(this))
   }
 }

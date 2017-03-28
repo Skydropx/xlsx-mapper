@@ -1,5 +1,5 @@
 import chai from 'chai'
-import MapperColumn from '../src/MapperColumn.js'
+import ColumnMapper from '../src/column-mapper.js'
 import XLSX from 'xlsx'
 import path from 'path'
 import expectedResult from './fixtures/mapper/output.js'
@@ -8,10 +8,10 @@ chai.expect()
 
 const expect = chai.expect
 
-describe('MapperColumn', () => {
+describe('ColumnMapper', () => {
   context('with simple matcher config', () => {
-    let mapper = new MapperColumn(inputs.matcherConfigurations.simple)
-      
+    let mapper = new ColumnMapper(inputs.matcherConfigurations.simple)
+
     describe('#map', () => {
       it('should return rows arguments transformed when map method receives multiple rows as argument', () => {
         let result = mapper.map(inputs.multipleRows)
@@ -26,8 +26,8 @@ describe('MapperColumn', () => {
   })
 
   context('with fixed matcher config', () => {
-    let mapper = new MapperColumn(inputs.matcherConfigurations.fixed)
-      
+    let mapper = new ColumnMapper(inputs.matcherConfigurations.fixed)
+
     describe('#map', () => {
       it('should return rows arguments transformed when map method receives multiple rows as argument', () => {
         let result = mapper.map(inputs.multipleRows)
@@ -42,7 +42,7 @@ describe('MapperColumn', () => {
   })
 
   context('with transformations config', () => {
-    let mapper = new MapperColumn(inputs.matcherConfigurations.addressesMatch)
+    let mapper = new ColumnMapper(inputs.matcherConfigurations.addressesMatch)
 
     describe('#map', () => {
       it('should return rows arguments transformed when map method receives multiple rows as argument', () => {
