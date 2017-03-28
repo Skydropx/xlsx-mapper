@@ -18,6 +18,13 @@ export default {
       'B': { type: 'match', value: 'City' },
       'C': { type: 'match', value: 'Detail Address'},
       'D': { type: 'match', value: 'Holder Name'}
+    },
+    fixed: {
+      'A': { type: 'match', value: 'Province' },
+      'B': { type: 'match', value: 'City' },
+      'C': { type: 'match', value: 'Detail Address'},
+      'D': { type: 'match', value: 'Holder Name'},
+      'E': { type: 'fixedvalue', value: 'Any Value'}
     }
   }
 }

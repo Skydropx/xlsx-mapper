@@ -21,6 +21,13 @@ export default class MapperColumn {
         case 'match' :
           obj[key] = row[transformSetting.value]
           break;
+        case 'fixedvalue' :
+          obj[key] = transformSetting.value
+          break;
+        case 'transformStreet' :
+          break;
+        case 'transformNeighborhood' :
+          break;
       }
     })
 
