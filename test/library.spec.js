@@ -7,7 +7,7 @@ chai.expect();
 
 const expect = chai.expect
 
-describe('Test filter method', () => {
+describe('XLSXMapper', () => {
   let fileName = path.resolve('./test/fixtures/file-with-tabs/input.xlsx');
   let xlsxMapper = new XLSXMapper({
     fileToParse: { fileName },
@@ -20,32 +20,35 @@ describe('Test filter method', () => {
     type: 'node',
     xlsx: XLSX
   })
-  let unfilteredResults = xlsxMapper.read()
 
-  it('should make a partial match filtering by City', () => {
-    xlsxMapper.filterOpts = {
-      columns: ['City'],
-      values: ['CIUDAD GENERAL ESCOBEDO', 'SAN NICOLÁS DE LOS GARZA']
-    }
-    xlsxMapper.read()
-    expect(xlsxMapper.rows).to.deep.equal(expectedResult.partialResult)
-  })
+  describe('#read', () => {
+    let unfilteredResults = xlsxMapper.read()
 
-  it('should make a full match filtering by City', () => {
-    xlsxMapper.filterOpts = {
-      columns: ['City'],
-      values: ['CIUDAD GENERAL ESCOBEDO', 'General Escobedo', 'SAN NICOLÁS DE LOS GARZA']
-    }
-    xlsxMapper.read()
-    expect(xlsxMapper.rows).to.deep.equal(unfilteredResults)
-  })
+    it('should make a partial match filtering by City', () => {
+      xlsxMapper.filterOpts = {
+        columns: ['City'],
+        values: ['CIUDAD GENERAL ESCOBEDO', 'SAN NICOLÁS DE LOS GARZA']
+      }
+      xlsxMapper.read()
+      expect(xlsxMapper.rows).to.deep.equal(expectedResult.partialResult)
+    })
 
-  it('should make an empty match filtering by City', () => {
-    xlsxMapper.filterOpts = {
-      columns: ['City'],
-      values: ['San Pedro Garza Garcia']
-    }
-    xlsxMapper.read()
-    expect(xlsxMapper.rows).to.deep.equal(expectedResult.emptyResult)
+    it('should make a full match filtering by City', () => {
+      xlsxMapper.filterOpts = {
+        columns: ['City'],
+        values: ['CIUDAD GENERAL ESCOBEDO', 'General Escobedo', 'SAN NICOLÁS DE LOS GARZA']
+      }
+      xlsxMapper.read()
+      expect(xlsxMapper.rows).to.deep.equal(unfilteredResults)
+    })
+
+    it('should make an empty match filtering by City', () => {
+      xlsxMapper.filterOpts = {
+        columns: ['City'],
+        values: ['San Pedro Garza Garcia']
+      }
+      xlsxMapper.read()
+      expect(xlsxMapper.rows).to.deep.equal(expectedResult.emptyResult)
+    })
   })
 })
