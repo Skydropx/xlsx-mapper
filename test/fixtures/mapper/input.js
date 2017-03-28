@@ -11,5 +11,13 @@ export default {
       'Detail Address': 'J A Mozo',
       'Holder Name': 'Juan Perez'
     }
-  ]
+  ],
+  matcherConfigurations: {
+    simple: {
+      'A': 'Province',
+      'B': 'City',
+      'C': 'Detail Address',
+      'D': 'Holder Name'
+    }
+  }
 }

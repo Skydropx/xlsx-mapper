@@ -9,19 +9,18 @@ chai.expect()
 const expect = chai.expect
 
 describe('MapperColumn', () => {
-  describe('#map', () => {
-    let matcher = {
-      'A': 'Province',
-      'B': 'City',
-      'C': 'Detail Address',
-      'D': 'Holder Name'
-    }
-
-    let mapper = new MapperColumn(matcher)
-    context('when map method receive as argument multiple rows', () => {
-      it('wharever', () => {
+  context('with single matcher config', () => {
+    let mapper = new MapperColumn(inputs.matcherConfigurations.simple)
+      
+    describe('#map', () => {
+      it('should return rows arguments transformed when map method receives multiple rows as argument', () => {
         let result = mapper.map(inputs.multipleRows)
         expect(result).to.deep.equal(expectedResult.multipleRows)
+      })
+
+      it('should return row argument transformed when map method receives single row as argument', () => {
+        let result = mapper.map(inputs.multipleRows[0])
+        expect(result).to.deep.equal(expectedResult.multipleRows[0])
       })
     })
   })
