@@ -9,7 +9,7 @@ export default {
     { 
       A: 'Nuevo Leon',
       B: 'Monterrey',
-      C: 'J A Mozo',
+      C: 'J A Mozo 2144',
       D: 'Juan Perez'
     } 
   ],
@@ -24,7 +24,7 @@ export default {
     { 
       A: 'Nuevo Leon',
       B: 'Monterrey',
-      C: 'J A Mozo',
+      C: 'J A Mozo 2144',
       D: 'Juan Perez',
       E: 'Any Value'
     } 
@@ -35,15 +35,15 @@ export default {
       B: 'San Pedro',
       C: 'Rio Guadalquivir #422, Del Valle',
       D: 'Jesús Lerma',
-      E: 'Rio Guadalquivir #422',
+      E: 'Rio Guadalquivir #422,',
       F: 'Del Valle'
     },
     { 
       A: 'Nuevo Leon',
       B: 'Monterrey',
-      C: 'J A Mozo',
+      C: 'J A Mozo 2144',
       D: 'Juan Perez',
-      E: 'J A Mozo',
+      E: 'J A Mozo 2144',
       F: ''
     } 
   ]

@@ -40,4 +40,20 @@ describe('MapperColumn', () => {
       })
     })
   })
+
+  context('with transformations config', () => {
+    let mapper = new MapperColumn(inputs.matcherConfigurations.addressesMatch)
+
+    describe('#map', () => {
+      it('should return rows arguments transformed when map method receives multiple rows as argument', () => {
+        let result = mapper.map(inputs.multipleRows)
+        expect(result).to.deep.equal(expectedResult.multipleRowsWithTransformations)
+      })
+
+      it('should return row argument transformed when map method receives single row as argument', () => {
+        let result = mapper.map(inputs.multipleRows[0])
+        expect(result).to.deep.equal(expectedResult.multipleRowsWithTransformations[0])
+      })
+    })
+  })
 })

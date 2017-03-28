@@ -1,5 +1,5 @@
 export default class AddressParser {
-  constructor (fulllAddress) {
+  constructor (fullAddress) {
     this.fullAddress = fullAddress
   }
 

@@ -18,6 +18,7 @@ export default class MapperColumn {
     Object.keys(this.tranformSettings).forEach((key) => {
       let transformSetting = this.tranformSettings[key]
       let transformType = transformSetting.type
+      let col
 
       switch(transformType) {
         case 'match' :
@@ -27,10 +28,12 @@ export default class MapperColumn {
           obj[key] = transformSetting.value
           break
         case 'transformStreet' :
-          obj[key] = new AddressParser(transformSetting.value).parseStreet()
+          col = transformSetting.value
+          obj[key] = new AddressParser(row[col]).parseStreet()
           break
         case 'transformNeighborhood' :
-          obj[key] = new AddressParser(transformSetting.value).parseNeighborhood()
+          col = transformSetting.value
+          obj[key] = new AddressParser(row[col]).parseNeighborhood()
           break
       }
     })

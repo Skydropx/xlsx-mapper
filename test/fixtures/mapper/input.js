@@ -8,7 +8,7 @@ export default {
     }, {
       'Province': 'Nuevo Leon',
       'City': 'Monterrey',
-      'Detail Address': 'J A Mozo',
+      'Detail Address': 'J A Mozo 2144',
       'Holder Name': 'Juan Perez'
     }
   ],
