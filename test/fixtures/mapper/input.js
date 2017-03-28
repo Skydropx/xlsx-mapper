@@ -14,10 +14,10 @@ export default {
   ],
   matcherConfigurations: {
     simple: {
-      'A': 'Province',
-      'B': 'City',
-      'C': 'Detail Address',
-      'D': 'Holder Name'
+      'A': { type: 'match', value: 'Province' },
+      'B': { type: 'match', value: 'City' },
+      'C': { type: 'match', value: 'Detail Address'},
+      'D': { type: 'match', value: 'Holder Name'}
     }
   }
 }

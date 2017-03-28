@@ -14,8 +14,14 @@ export default class MapperColumn {
     let obj = {}
 
     Object.keys(this.tranformSettings).forEach((key) => {
-      let prevKey = this.tranformSettings[key]
-      obj[key] = row[prevKey]
+      let transformSetting = this.tranformSettings[key]
+      let transformType = transformSetting.type
+
+      switch(transformType) {
+        case 'match' :
+          obj[key] = row[transformSetting.value]
+          break;
+      }
     })
 
     return obj
