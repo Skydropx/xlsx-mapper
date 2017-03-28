@@ -1,3 +1,5 @@
+import AddressParser from './AddressParser'
+
 export default class MapperColumn {
   constructor(columnsToTransform) {
     this.tranformSettings = columnsToTransform
@@ -20,14 +22,16 @@ export default class MapperColumn {
       switch(transformType) {
         case 'match' :
           obj[key] = row[transformSetting.value]
-          break;
+          break
         case 'fixedvalue' :
           obj[key] = transformSetting.value
-          break;
+          break
         case 'transformStreet' :
-          break;
+          obj[key] = new AddressParser(transformSetting.value).parseStreet()
+          break
         case 'transformNeighborhood' :
-          break;
+          obj[key] = new AddressParser(transformSetting.value).parseNeighborhood()
+          break
       }
     })
 
