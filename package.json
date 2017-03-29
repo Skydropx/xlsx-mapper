@@ -2,7 +2,7 @@
   "name": "xlsx-mapper",
   "version": "0.2.2",
   "description": "Read XLSX to map columns",
-  "main": "lib/XLSXMapper.js",
+  "main": "dist/xlsx-mapper.js",
   "standard": {
     "env": [ "mocha" ]
   },
