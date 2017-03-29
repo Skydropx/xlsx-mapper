@@ -2,11 +2,11 @@
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
 	else if(typeof define === 'function' && define.amd)
-		define("XLSXMapper", [], factory);
+		define("xlsx-mapper", [], factory);
 	else if(typeof exports === 'object')
-		exports["XLSXMapper"] = factory();
+		exports["xlsx-mapper"] = factory();
 	else
-		root["XLSXMapper"] = factory();
+		root["xlsx-mapper"] = factory();
 })(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -608,4 +608,4 @@ class XLSXMapper {
 /***/ })
 /******/ ]);
 });
-//# sourceMappingURL=XLSXMapper.js.map
+//# sourceMappingURL=xlsx-mapper.js.map
