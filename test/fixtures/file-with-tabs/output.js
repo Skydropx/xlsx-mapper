@@ -1,4 +1,24 @@
 export default {
+  partialResultsUngrouped: [
+    {
+      A: 'NUEVO LEÓN',
+      B: 'SAN NICOLÁS DE LOS GARZA',
+      C: 'AV. ADOLFO LOPEZ MATEOS 4207 - 7, RINCÓN DEL ORIENTE',
+      D: 'MARGARITA APARICIO MUÑOZ' 
+    },
+    { 
+      A: 'NUEVO LEÓN',
+      B: 'CIUDAD GENERAL ESCOBEDO',
+      C: 'Quintas de los ciruelos 112, QUINTAS DE ANÁHUAC',
+      D: 'Maria de Lourdes Lopez Fragoso' 
+    },
+    { 
+      A: 'NUEVO LEÓN',
+      B: 'SAN NICOLÁS DE LOS GARZA',
+      C: 'Poniente 1019, LAS PUENTES SECTOR 1',
+      D: 'O\'brian Silva' 
+    } 
+  ],
   partialResults: [
     { 'Issac Garza': [ 
       { 

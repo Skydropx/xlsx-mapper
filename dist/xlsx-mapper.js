@@ -493,13 +493,20 @@ class XLSXMapper {
   _ungroupedRows (workbook) {
     workbook.SheetNames.forEach(sheetName => {
       let worksheet = workbook.Sheets[sheetName]
-      this.XLSX.utils.sheet_to_json(worksheet).forEach(row => {
-        this.rows.push(this.mapper.map(row))
-      })
+      let rows = this.XLSX.utils.sheet_to_json(worksheet)
+      this.rows = this.mapper.map(rows)  
     })
   }
 
   _filterRows () {
+    if(this.group === true) {
+      return this._filterGroupedRows()
+    }
+
+    this.rows = this.rows.filter(this._filterRow.bind(this))
+  }
+
+  _filterGroupedRows () {
     this.rows.forEach((topRows, idx, self) => {
       Object.keys(topRows).forEach((key) => {
         this.rows[idx] = { [key]: topRows[key].filter(this._filterRow.bind(this)) }
@@ -538,23 +545,19 @@ class XLSXMapper {
     let uniqCols = this.uniqColumns(excelRows)
 
     uniqCols.forEach(col => {
-      let obj = {
-        [col]: excelRows.filter(row => row[this.column] === col).map(row => this.mapper.map(row))
-      }
-      this.rows.push(obj)
+      let filteredRows = excelRows.filter(row => row[this.column] === col)
+      this.rows.push({
+        [col]: this.mapper.map(this.filteredRows)
+      })
     })
   }
 
   _groupByTab (workbook) {
     workbook.SheetNames.forEach(sheetName => {
       let worksheet = workbook.Sheets[sheetName]
-      let obj = {}
-      obj[sheetName] = []
+      let excelRows = this.XLSX.utils.sheet_to_json(worksheet)
+      let obj = {[sheetName]: this.mapper.map(excelRows)}
 
-      this.XLSX.utils.sheet_to_json(worksheet).forEach(row => {
-        let mapper = new __WEBPACK_IMPORTED_MODULE_4__column_mapper__["a" /* default */](this.columnsToTransform)
-        obj[sheetName].push(mapper.map(row))
-      })
       this.rows.push(obj)
     })
   }

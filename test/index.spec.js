@@ -26,6 +26,15 @@ describe('XLSXMapper', () => {
   })
 
   describe('#apply', () => {
+    it('should make a partial match filtering by City without group', () => {
+      xlsxMapper.filterOpts = {
+        columns: ['B'],
+        values: ['CIUDAD GENERAL ESCOBEDO', 'SAN NICOLÁS DE LOS GARZA']
+      }
+      xlsxMapper.apply()
+      expect(xlsxMapper.rows).to.deep.equal(expectedResult.partialResultsUngrouped)
+    })
+
     it('should make a partial match filtering by City', () => {
       xlsxMapper.group = true
       xlsxMapper.filterOpts = {
@@ -33,6 +42,7 @@ describe('XLSXMapper', () => {
         values: ['CIUDAD GENERAL ESCOBEDO', 'SAN NICOLÁS DE LOS GARZA']
       }
       xlsxMapper.apply()
+      console.log(xlsxMapper.rows)
       expect(xlsxMapper.rows).to.deep.equal(expectedResult.partialResults)
     })
 

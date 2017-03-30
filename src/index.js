@@ -69,6 +69,14 @@ export default class XLSXMapper {
   }
 
   _filterRows () {
+    if(this.group === true) {
+      return this._filterGroupedRows()
+    }
+
+    this.rows = this.rows.filter(this._filterRow.bind(this))
+  }
+
+  _filterGroupedRows () {
     this.rows.forEach((topRows, idx, self) => {
       Object.keys(topRows).forEach((key) => {
         this.rows[idx] = { [key]: topRows[key].filter(this._filterRow.bind(this)) }
@@ -118,7 +126,7 @@ export default class XLSXMapper {
     workbook.SheetNames.forEach(sheetName => {
       let worksheet = workbook.Sheets[sheetName]
       let excelRows = this.XLSX.utils.sheet_to_json(worksheet)
-      let obj = {[sheetName]: his.mapper.map(excelRows)}
+      let obj = {[sheetName]: this.mapper.map(excelRows)}
 
       this.rows.push(obj)
     })
