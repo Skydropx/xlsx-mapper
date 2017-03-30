@@ -445,7 +445,7 @@ class XLSXMapper {
     this.XLSX = args.xlsx || XLSX
     this.grouperType = args.grouperType // should be column or sheet
     this.column = args.column
-    this.filterOpts = args.filter
+    this.filterOpts = args.filterOpts
     this.group = args.group
     this.mapper = new __WEBPACK_IMPORTED_MODULE_4__column_mapper__["a" /* default */](this.columnsToTransform)
   }

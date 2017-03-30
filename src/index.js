@@ -15,7 +15,7 @@ export default class XLSXMapper {
     this.XLSX = args.xlsx || XLSX
     this.grouperType = args.grouperType // should be column or sheet
     this.column = args.column
-    this.filterOpts = args.filter
+    this.filterOpts = args.filterOpts
     this.group = args.group
     this.mapper = new ColumnMapper(this.columnsToTransform)
   }
