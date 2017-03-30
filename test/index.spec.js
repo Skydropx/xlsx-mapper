@@ -1,5 +1,5 @@
 import chai from 'chai'
-import XLSXMapper from '../lib/XLSXMapper.js'
+import XLSXMapper from '../dist/xlsx-mapper.js'
 import XLSX from 'xlsx'
 import path from 'path'
 import expectedResult from './fixtures/file-with-tabs/output.js'
@@ -15,10 +15,10 @@ describe('XLSXMapper', () => {
     xlsxMapper = new XLSXMapper({
       fileToParse: { fileName },
       columnsToTransform: {
-        'A': 'Province',
-        'B': 'City',
-        'C': 'Detail Address',
-        'D': 'Holder Name'
+        'A': { type: 'match', value: 'Province' },
+        'B': { type: 'match', value: 'City' },
+        'C': { type: 'match', value: 'Detail Address' },
+        'D': { type: 'match', value: 'Holder Name' }
       },
       type: 'node',
       xlsx: XLSX
@@ -29,7 +29,7 @@ describe('XLSXMapper', () => {
     it('should make a partial match filtering by City', () => {
       xlsxMapper.group = true
       xlsxMapper.filterOpts = {
-        columns: ['City'],
+        columns: ['B'],
         values: ['CIUDAD GENERAL ESCOBEDO', 'SAN NICOLÁS DE LOS GARZA']
       }
       xlsxMapper.apply()
@@ -39,7 +39,7 @@ describe('XLSXMapper', () => {
     it('should make a full match filtering by City', () => {
       xlsxMapper.group = true
       xlsxMapper.filterOpts = {
-        columns: ['City'],
+        columns: ['B'],
         values: ['CIUDAD GENERAL ESCOBEDO', 'General Escobedo', 'SAN NICOLÁS DE LOS GARZA']
       }
       xlsxMapper.apply()
@@ -49,7 +49,7 @@ describe('XLSXMapper', () => {
     it('should make an empty match filtering by City', () => {
       xlsxMapper.group = true
       xlsxMapper.filterOpts = {
-        columns: ['City'],
+        columns: ['B'],
         values: ['San Pedro Garza Garcia']
       }
       xlsxMapper.apply()
@@ -84,7 +84,7 @@ describe('XLSXMapper', () => {
           D: 'O\'brian Silva'
         },
         {
-          A: undefined,
+          A: 'NUEVO LEÓN',
           B: 'General Escobedo',
           C: 'Mina 222 Colonia Anahuac, Madeira',
           D: 'Amalia Montalvo'
@@ -101,8 +101,7 @@ describe('XLSXMapper', () => {
       xlsxMapper.group = false
       xlsxMapper.filterOpts = null
       let rows = xlsxMapper.apply()
-
-      expect(xlsxMapper.uniqColumns(rows, 'City')).to.deep.equal(expectedResult.uniqueResults)
+      expect(xlsxMapper.uniqColumns(rows, 'B')).to.deep.equal(expectedResult.uniqueResults)
     })
   })
 })

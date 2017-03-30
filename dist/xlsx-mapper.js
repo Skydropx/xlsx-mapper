@@ -440,7 +440,6 @@ class XLSXMapper {
     this._validateArgs(args)
     this.fileToParse = args.fileToParse
     this.columnsToTransform = args.columnsToTransform
-    this.columnsToMap = args.columnsToMap
     this.rows = []
     this.type = args.type || 'node'
     this.XLSX = args.xlsx || XLSX
@@ -448,6 +447,7 @@ class XLSXMapper {
     this.column = args.column
     this.filterOpts = args.filter
     this.group = args.group
+    this.mapper = new __WEBPACK_IMPORTED_MODULE_4__column_mapper__["a" /* default */](this.columnsToTransform)
   }
 
   apply () {
@@ -464,10 +464,6 @@ class XLSXMapper {
 
     if (this.filterOpts) {
       this._filterRows()
-    }
-
-    if (this.columnsToMap) {
-      this._mapColumns()
     }
 
     return this.rows
@@ -494,21 +490,11 @@ class XLSXMapper {
   }
 
   // private methods
-  _mapColumns () {
-    let mapper = new __WEBPACK_IMPORTED_MODULE_4__column_mapper__["a" /* default */](this.columnsToMap)
-    this.rows = mapper.map(this.rows)
-  }
-
   _ungroupedRows (workbook) {
     workbook.SheetNames.forEach(sheetName => {
       let worksheet = workbook.Sheets[sheetName]
       this.XLSX.utils.sheet_to_json(worksheet).forEach(row => {
-        let inObj = {}
-        // pening to refactor
-        for (let key in this.columnsToTransform) {
-          inObj[this.columnsToTransform[key]] = row[this.columnsToTransform[key]]
-        }
-        this.rows.push(inObj)
+        this.rows.push(this.mapper.map(row))
       })
     })
   }
@@ -553,7 +539,7 @@ class XLSXMapper {
 
     uniqCols.forEach(col => {
       let obj = {
-        [col]: excelRows.filter(row => row[this.column] === col)
+        [col]: excelRows.filter(row => row[this.column] === col).map(row => this.mapper.map(row))
       }
       this.rows.push(obj)
     })
@@ -566,14 +552,8 @@ class XLSXMapper {
       obj[sheetName] = []
 
       this.XLSX.utils.sheet_to_json(worksheet).forEach(row => {
-        let key
-        let inObj = {}
-
-        for (key in this.columnsToTransform) {
-          inObj[this.columnsToTransform[key]] = row[this.columnsToTransform[key]]
-        }
-
-        obj[sheetName].push(inObj)
+        let mapper = new __WEBPACK_IMPORTED_MODULE_4__column_mapper__["a" /* default */](this.columnsToTransform)
+        obj[sheetName].push(mapper.map(row))
       })
       this.rows.push(obj)
     })

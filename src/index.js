@@ -10,7 +10,6 @@ export default class XLSXMapper {
     this._validateArgs(args)
     this.fileToParse = args.fileToParse
     this.columnsToTransform = args.columnsToTransform
-    this.columnsToMap = args.columnsToMap
     this.rows = []
     this.type = args.type || 'node'
     this.XLSX = args.xlsx || XLSX
@@ -18,6 +17,7 @@ export default class XLSXMapper {
     this.column = args.column
     this.filterOpts = args.filter
     this.group = args.group
+    this.mapper = new ColumnMapper(this.columnsToTransform)
   }
 
   apply () {
@@ -34,10 +34,6 @@ export default class XLSXMapper {
 
     if (this.filterOpts) {
       this._filterRows()
-    }
-
-    if (this.columnsToMap) {
-      this._mapColumns()
     }
 
     return this.rows
@@ -64,22 +60,11 @@ export default class XLSXMapper {
   }
 
   // private methods
-  _mapColumns () {
-    let mapper = new ColumnMapper(this.columnsToMap)
-    this.rows = mapper.map(this.rows)
-  }
-
   _ungroupedRows (workbook) {
     workbook.SheetNames.forEach(sheetName => {
       let worksheet = workbook.Sheets[sheetName]
-      this.XLSX.utils.sheet_to_json(worksheet).forEach(row => {
-        let inObj = {}
-        // pening to refactor
-        for (let key in this.columnsToTransform) {
-          inObj[this.columnsToTransform[key]] = row[this.columnsToTransform[key]]
-        }
-        this.rows.push(inObj)
-      })
+      let rows = this.XLSX.utils.sheet_to_json(worksheet)
+      this.rows = this.mapper.map(rows)  
     })
   }
 
@@ -122,29 +107,19 @@ export default class XLSXMapper {
     let uniqCols = this.uniqColumns(excelRows)
 
     uniqCols.forEach(col => {
-      let obj = {
-        [col]: excelRows.filter(row => row[this.column] === col)
-      }
-      this.rows.push(obj)
+      let filteredRows = excelRows.filter(row => row[this.column] === col)
+      this.rows.push({
+        [col]: this.mapper.map(this.filteredRows)
+      })
     })
   }
 
   _groupByTab (workbook) {
     workbook.SheetNames.forEach(sheetName => {
       let worksheet = workbook.Sheets[sheetName]
-      let obj = {}
-      obj[sheetName] = []
+      let excelRows = this.XLSX.utils.sheet_to_json(worksheet)
+      let obj = {[sheetName]: his.mapper.map(excelRows)}
 
-      this.XLSX.utils.sheet_to_json(worksheet).forEach(row => {
-        let key
-        let inObj = {}
-
-        for (key in this.columnsToTransform) {
-          inObj[this.columnsToTransform[key]] = row[this.columnsToTransform[key]]
-        }
-
-        obj[sheetName].push(inObj)
-      })
       this.rows.push(obj)
     })
   }
