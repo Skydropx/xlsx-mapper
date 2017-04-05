@@ -1,4 +1,4 @@
-import SkydropExcel from './SkydropExcel'
+import SkydropExcel from './skydrop-excel'
 // import 'script-loader!../node_modules/xlsx/dist/xlsx.full.min.js'
 import 'script-loader!../node_modules/xlsx/dist/ods.js'
 import 'script-loader!../node_modules/xlsx/dist/cpexcel.js'

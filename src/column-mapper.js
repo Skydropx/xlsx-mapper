@@ -1,4 +1,4 @@
-import AddressParser from './AddressParser'
+import AddressParser from './address-parser'
 
 export default class ColumnMapper {
   constructor (columnsToTransform) {
