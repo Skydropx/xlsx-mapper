@@ -6,6 +6,9 @@ export default class Validate {
       validators = Validators
     }
 
-    return this.validators.map(v => v.validate(obj))
+    return this.validators.map(VClass => {
+      let v = new VClass(obj)
+      return v.validate()
+    })
   }
 }
