@@ -26,7 +26,7 @@ export default class MissingColumnsValidator {
   _missingColumnsError (missingColumns = []) {
     let msg = `Las columnas '${missingColumns.join(',')}' no existe en el archivo`
 
-    return  new ValidatorErrors('MissingColumnValidatorError', msg, 'MissingColumn')
+    return new ValidatorErrors('MissingColumnValidatorError', msg, 'MissingColumn')
   }
 
   _extractColumnsToTransform () {

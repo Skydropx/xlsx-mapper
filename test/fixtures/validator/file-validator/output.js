@@ -12,7 +12,7 @@ export default {
     error: {
       name: 'FileExtensionValidatorError',
       details: {
-        message: `El archivo no tiene una extensión permitida`,
+        message: `El archivo no tiene una extensión permitida '.xlsa'`,
         path: 'ValidFileExtension'
       }
     }

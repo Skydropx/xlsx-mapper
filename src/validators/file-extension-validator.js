@@ -1,29 +1,28 @@
+import extname from './extname'
+import ValidatorErrors from './validator-errors'
+
 export default class FileExtensionValidator {
-  constructor () {
-    
+  constructor (validatable) {
+    if (validatable.type === 'browser') {
+      this.extension = validatable
+    } else {
+      this.extension = extname(validatable.fileToParse.fileName)
+    }
   }
 
   validate () {
-    let fileExtensionValidated = this._validateFileExtension()
-
-    if (fileExtensionValidated.length === 0) return { error: null }
+    if (this._validateFileExtension()) return { error: null }
 
     return this._fileExtensionError()
   }
 
   _validateFileExtension () {
-    return [1]
+    return this.extension === '.xlsx'
   }
 
   _fileExtensionError () {
-    return {
-      error: {
-        name: 'FileExtensionValidatorError',
-        details: {
-          message: `El archivo no tiene una extensión permitida`,
-          path: 'ValidFileExtension'
-        }
-      }
-    }
+    let msg = `El archivo no tiene una extensión permitida '${this.extension}'`
+
+    return new ValidatorErrors('FileExtensionValidatorError', msg, 'ValidFileExtension')
   }
 }
