@@ -1,29 +1,22 @@
+import WorkbookUtils from '../workbook-utils'
+import ValidatorErrors from './validator-errors'
+
 export default class FileNotEmptyValidator {
-  constructor () {
-    
+  constructor (validatable) {
+    this.validatable = validatable
+    this.workbook = new WorkbookUtils(validatable.xlsx, validatable.type, validatable.fileToParse) // as reference?
+    this.rows = this.workbook.readRows()
   }
 
   validate () {
-    let fileNotEmptyValidated = this._validateFileNotEmpty()
-
-    if (fileNotEmptyValidated.length === 0) return { error: null }
+    if (this.rows > 0) return { error: null }
 
     return this._fileNotEmptyError()
   }
 
-  _validateFileNotEmpty () {
-    return [1]
-  }
-
   _fileNotEmptyError () {
-    return {
-      error: {
-        name: 'FileNotEmptyError',
-        details: {
-          message: 'El archivo está vacio',
-          path: 'ValidNotEmpty'
-        }
-      }
-    }
+    let msg = 'El archivo está vacio'
+
+    return new ValidatorErrors('FileNotEmptyError', msg, 'ValidNotEmpty')
   }
 }
