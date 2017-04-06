@@ -1,5 +1,6 @@
 import chai from 'chai'
 import ColumnSchemaValidator from '../../src/validators/column-schema-validator.js'
+import MissingColumns from '../../src/validators/column-schema-validator/missing-columns'
 import expectedResult from '../fixtures/validator/column-schema-validator/output.js'
 import inputs from '../fixtures/validator/column-schema-validator/input.js'
 import XLSX from 'xlsx'
@@ -22,9 +23,9 @@ describe('ColumnSchemaValidator', () => {
         fileToParse: { fileName }
       }
 
-      let columnSchemaValidator = new ColumnSchemaValidator(prop)
-
-      expect(columnSchemaValidator.validate()).to.deep.equal(expectedResult.resultsWithError)
+      let missingColumns = new MissingColumns(prop)
+      let columnSchemaValidator = new ColumnSchemaValidator([missingColumns])
+      expect(columnSchemaValidator.validate()[0]).to.deep.equal(expectedResult.resultsWithError)
     })
   })
 })
