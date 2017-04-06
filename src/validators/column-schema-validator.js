@@ -4,7 +4,7 @@ import CustomArray from '../custom-array'
 export default class ColumnSchemaValidator {
   constructor (xlsxMapper) {
     this.xlsxMapper = xlsxMapper
-    this.workbook = new WorkbookUtils(xlsxMapper.xlsx, xlsxMapper.type, xlsxMapper.fileToParse)
+    this.workbook = new WorkbookUtils(xlsxMapper.xlsx, xlsxMapper.type, xlsxMapper.fileToParse) // as reference?
     this.rows = this.workbook.readRows()
   }
 
