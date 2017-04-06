@@ -3,7 +3,7 @@ export default {
     error: {
       name: "ColumnSchemaValidatorError",
       details: {
-        message: "La columna 'RequiredColumnToTest' no existe en el archivo",
+        message: "Las columnas 'Order Shipment's Order's Ship To Name' no existe en el archivo",
         path: "RequiredColumnToTest"
       }
     }
