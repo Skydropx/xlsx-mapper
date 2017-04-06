@@ -1,3 +1,5 @@
+import CustomArray from './custom-array'
+
 export default class WorkbookUtil {
   constructor (xlsx, readType, file) {
     this.xlsx = xlsx
@@ -14,18 +16,13 @@ export default class WorkbookUtil {
   readRows () {
     let arrayOfSheets = this.workbook.SheetNames.map(sn => this._mapSheet(sn))
 
-    return this.rows = this._matrixToArray(arrayOfSheets)
+    return this.rows = new CustomArray(arrayOfSheets).matrixToArray()
   }
 
   _mapSheet (sheetName) {
     let worksheet = this.workbook.Sheets[sheetName]
     return this.xlsx.utils.sheet_to_json(worksheet)
   }
-
-  _matrixToArray (matrix) {
-    return matrix.reduce((prev, next) => prev.concat(next))
-  }
-
 
   _readWorkbook () {
     if (this.readType === 'browser') {
