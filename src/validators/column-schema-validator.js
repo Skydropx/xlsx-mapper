@@ -1,4 +1,5 @@
 import WorkbookUtils from '../workbook-utils'
+import CustomArray from '../custom-array'
 
 export default class ColumnSchemaValidator {
   constructor (xlsxMapper) {
@@ -16,7 +17,9 @@ export default class ColumnSchemaValidator {
   }
 
   _validateMissingColumns () {
-    return this._diff(this._extractColumnsToTransform(), this.workbook.head())
+    let extractedColumns = this._extractColumnsToTransform()
+
+    return extractedColumns.diff(this.workbook.head())
   }
 
   _addError (missingColumns = []) {
@@ -37,11 +40,8 @@ export default class ColumnSchemaValidator {
       if (this.xlsxMapper.columnsToTransform[key].type === 'match')
         return this.xlsxMapper.columnsToTransform[key].value
     }
-    
-    return keys.map(mapColumn).filter(col => col !== undefined)
-  }
+    let filteredResult = keys.map(mapColumn).filter(col => col !== undefined)
 
-  _diff (arr1, arr2) {
-    return arr1.filter(idx => arr2.indexOf(idx) < 0 )
+    return new CustomArray(filteredResult)
   }
 }
