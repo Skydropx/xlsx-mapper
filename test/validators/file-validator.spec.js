@@ -1,4 +1,4 @@
-import chai from 'chai'
+/*import chai from 'chai'
 import FileValidator from '../../src/validators/file-validator.js'
 import FileNotEmptyValidator from '../../src/validators/file-validator/file-not-empty-validator'
 import FileExtensionValidator from '../../src/validators/file-validator/file-extension-validator'
@@ -27,3 +27,4 @@ describe('FileValidator', () => {
     })
   })
 })
+*/
