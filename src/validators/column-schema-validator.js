@@ -1,7 +1,10 @@
+import WorkbookUtils from '../workbook-utils'
+
 export default class ColumnSchemaValidator {
   constructor (xlsxMapper) {
     this.xlsxMapper = xlsxMapper
-    this.rows = this._readWorkbook()
+    this.workbook = new WorkbookUtils(xlsxMapper.xlsx, xlsxMapper.type, xlsxMapper.fileToParse)
+    this.rows = this.workbook.readRows()
   }
 
   validate () {
@@ -15,7 +18,7 @@ export default class ColumnSchemaValidator {
   }
 
   _validateMissingColumns () {
-    return this._diff(this._extractColumns(), this._head())
+    return this._diff(this._extractColumnsToTransform(), this.workbook.head())
   }
 
   _addError (missingColumns = []) {
@@ -30,7 +33,7 @@ export default class ColumnSchemaValidator {
     }
   }
 
-  _extractColumns () {
+  _extractColumnsToTransform () {
     let keys = Object.keys(this.xlsxMapper.columnsToTransform)
     let mapColumn = (key) => {
       if (this.xlsxMapper.columnsToTransform[key].type === 'match')
@@ -39,32 +42,7 @@ export default class ColumnSchemaValidator {
     return keys.map(mapColumn).filter(col => col !== undefined)
   }
 
-  _head () {
-    return Object.keys(this.rows[0])
-  }
-
-  _matrixToArray (matrix) {
-    return matrix.reduce((prev, next) => prev.concat(next))
-  }
-
   _diff (arr1, arr2) {
     return arr1.filter(idx => arr2.indexOf(idx) < 0 )
-  }
-
-  _readWorkbook () {
-    let workbook
-
-    if (this.xlsxMapper.type === 'browser') {
-      workbook = this.xlsxMapper.xlsx.read(this.xlsxMapper.fileToParse.fileData, {type: 'binary'})
-    } else {
-      workbook = this.xlsxMapper.xlsx.readFile(this.xlsxMapper.fileToParse.fileName)
-    }
-
-    let arrayOfSheets = workbook.SheetNames.map(sheetName => {
-      let worksheet = workbook.Sheets[sheetName]
-      return this.xlsxMapper.xlsx.utils.sheet_to_json(worksheet)
-    })
-
-    return this._matrixToArray(arrayOfSheets)
   }
 }
