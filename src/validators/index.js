@@ -11,7 +11,7 @@ const VALIDATORS = [
 
 export default class Validate {
   static execute (obj, validators = null) {
-    if(!validators) {
+    if (!validators) {
       validators = VALIDATORS
     }
 

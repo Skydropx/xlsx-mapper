@@ -32,8 +32,9 @@ export default class MissingColumnsValidator {
   _extractColumnsToTransform () {
     let keys = Object.keys(this.validatable.columnsToTransform)
     let mapColumn = (key) => {
-      if (this.validatable.columnsToTransform[key].type === 'match')
+      if (this.validatable.columnsToTransform[key].type === 'match') {
         return this.validatable.columnsToTransform[key].value
+      }
     }
     let filteredResult = keys.map(mapColumn).filter(col => col !== undefined)
 

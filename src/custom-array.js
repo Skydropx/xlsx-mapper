@@ -5,7 +5,7 @@ export default class CustomArray {
   }
 
   diff (array) {
-    return this.array.filter(idx => array.indexOf(idx) < 0 )
+    return this.array.filter(idx => array.indexOf(idx) < 0)
   }
 
   matrixToArray () {

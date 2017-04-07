@@ -15,8 +15,9 @@ export default class WorkbookUtil {
 
   readRows () {
     let arrayOfSheets = this.workbook.SheetNames.map(sn => this._mapSheet(sn))
+    this.rows = new CustomArray(arrayOfSheets).matrixToArray()
 
-    return this.rows = new CustomArray(arrayOfSheets).matrixToArray()
+    return this.rows
   }
 
   _mapSheet (sheetName) {

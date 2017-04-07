@@ -42,7 +42,6 @@ describe('XLSXMapper', () => {
         values: ['CIUDAD GENERAL ESCOBEDO', 'SAN NICOLÁS DE LOS GARZA']
       }
       xlsxMapper.apply()
-      console.log(xlsxMapper.rows)
       expect(xlsxMapper.rows).to.deep.equal(expectedResult.partialResults)
     })
 
