@@ -4,6 +4,7 @@ import 'script-loader!../node_modules/xlsx/dist/ods.js'
 import 'script-loader!../node_modules/xlsx/dist/cpexcel.js'
 import 'script-loader!../node_modules/xlsx/dist/xlsx.core.min.js'
 import ColumnMapper from './column-mapper'
+import Validator from './validators'
 
 export default class XLSXMapper {
   constructor (args) {
@@ -22,8 +23,11 @@ export default class XLSXMapper {
   }
 
   apply () {
-    this.rows = []
+    this.errors = Validator.exec(this)
 
+    if (this.error.length > 0)
+      return []
+    
     if (this.grouperType === 'column' && this.group) {
       this._groupByColumn()
     } else if (this.group) {
