@@ -1,11 +1,10 @@
 import FileExtensionValidator from './file-extension-validator'
-import RowValidator from './row-validator'
+// import RowValidator from './row-validator' pending to define behavior
 import FileNotEmptyValidator from './file-not-empty-validator'
 import MissingColumnsValidator from './missing-columns-validator'
 
 const VALIDATORS = [
   FileExtensionValidator,
-  RowValidator,
   FileNotEmptyValidator,
   MissingColumnsValidator
 ]

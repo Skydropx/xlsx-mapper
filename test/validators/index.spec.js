@@ -39,7 +39,6 @@ describe('Validator', () => {
     it('should return all validation errors when validators are no present', () => {
       let expectedResults = [
         {error: null},
-        rowValidatorExpectedResult.anotherRowError,
         fileValidatorExpectedResult.fileNotEmptyError,
         missingColumnsValidatorExpectedResult.resultsWithError
       ]
