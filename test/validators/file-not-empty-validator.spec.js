@@ -10,9 +10,9 @@ chai.expect()
 const expect = chai.expect
 let fileName = path.resolve('./test/fixtures/validator/empty.xlsx')
 
-describe.only('FileNotEmptyValidator', () => {
+describe('FileNotEmptyValidator', () => {
   describe('#validate', () => {
-    it('should return an error when extension is invalid', () => {
+    it('should return an error when file is empty', () => {
       let obj = {
         columnsToTransform: {
           name: { type: 'match', value: "Order Shipment's Order's Ship To Name"}
