@@ -18,18 +18,18 @@ export default class XLSXMapper {
     this.filterOpts = args.filterOpts
     this.group = args.group
     this.mapper = new ColumnMapper(this.columnsToTransform)
+    this.workbook = this._readWorkbook()
   }
 
   apply () {
-    let workbook = this._readWorkbook()
     this.rows = []
 
     if (this.grouperType === 'column' && this.group) {
-      this._groupByColumn(workbook)
+      this._groupByColumn()
     } else if (this.group) {
-      this._groupByTab(workbook)
+      this._groupByTab()
     } else if (!this.group) {
-      this._ungroupedRows(workbook)
+      this._ungroupedRows()
     }
 
     if (this.filterOpts) {
@@ -97,19 +97,15 @@ export default class XLSXMapper {
   }
 
   _readWorkbook () {
-    let workbook
-
     if (this.type === 'browser') {
-      workbook = this.XLSX.read(this.fileToParse.fileData, {type: 'binary'})
-    } else {
-      workbook = this.XLSX.readFile(this.fileToParse.fileName)
-    }
-    return workbook
+      return this.XLSX.read(this.fileToParse.fileData, {type: 'binary'})
+    } 
+    return this.XLSX.readFile(this.fileToParse.fileName)
   }
 
-  _groupByColumn (workbook) {
-    let sheetName = workbook.SheetNames[0]
-    let worksheet = workbook.Sheets[sheetName]
+  _groupByColumn () {
+    let sheetName = this.workbook.SheetNames[0]
+    let worksheet = this.workbook.Sheets[sheetName]
     let obj = { [sheetName]: [] }
     let excelRows = this.XLSX.utils.sheet_to_json(worksheet)
     let uniqCols = this.uniqColumns(excelRows)
@@ -122,9 +118,9 @@ export default class XLSXMapper {
     })
   }
 
-  _groupByTab (workbook) {
-    workbook.SheetNames.forEach(sheetName => {
-      let worksheet = workbook.Sheets[sheetName]
+  _groupByTab () {
+    this.workbook.SheetNames.forEach(sheetName => {
+      let worksheet = this.workbook.Sheets[sheetName]
       let excelRows = this.XLSX.utils.sheet_to_json(worksheet)
       let obj = {[sheetName]: this.mapper.map(excelRows)}
 
