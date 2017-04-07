@@ -67,8 +67,8 @@ export default class XLSXMapper {
 
   // private methods
   _ungroupedRows (workbook) {
-    workbook.SheetNames.forEach(sheetName => {
-      let worksheet = workbook.Sheets[sheetName]
+    this.workbook.SheetNames.forEach(sheetName => {
+      let worksheet = this.workbook.Sheets[sheetName]
       let rows = this.xlsx.utils.sheet_to_json(worksheet)
       this.rows = this.mapper.map(rows)
     })
