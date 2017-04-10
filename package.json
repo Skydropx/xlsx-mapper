@@ -1,6 +1,6 @@
 {
   "name": "XLSXMapper",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Read XLSX to map columns",
   "main": "dist/xlsx-mapper.js",
   "standard": {
