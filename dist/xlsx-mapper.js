@@ -298,6 +298,8 @@ var ColumnMapper = function () {
     value: function _mapSingleRow(row) {
       var _this = this;
 
+      var idx = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
       var obj = {};
 
       Object.keys(this.tranformSettings).forEach(function (key) {
@@ -319,6 +321,9 @@ var ColumnMapper = function () {
           case 'transformNeighborhood':
             col = transformSetting.value;
             obj[key] = new _addressParser2.default(row[col]).parseNeighborhood();
+            break;
+          case 'autoincrement':
+            obj[key] = '' + (idx + 1);
             break;
         }
       });

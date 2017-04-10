@@ -35,8 +35,8 @@ export default class ColumnMapper {
           col = transformSetting.value
           obj[key] = new AddressParser(row[col]).parseNeighborhood()
           break
-        case 'autoincrement' : 
-          obj[key] = idx + 1
+        case 'autoincrement' :
+          obj[key] = `${idx + 1}`
           break
       }
     })

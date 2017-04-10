@@ -26,6 +26,12 @@ describe('XLSXMapper', () => {
   })
 
   describe('#apply', () => {
+    it('should create autoincrement value at matched options', () => {
+      xlsxMapper.columnsToTransform['E'] = { type: 'autoincrement' }
+      xlsxMapper.apply()
+      expect(xlsxMapper.rows[1]['E']).to.equal('2')
+    })
+
     it('should make a partial match filtering by City without group', () => {
       xlsxMapper.filterOpts = {
         columns: ['B'],
