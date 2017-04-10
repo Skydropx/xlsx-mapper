@@ -47,12 +47,18 @@ const config = {
         }
       },
       {
+        test: /(\.jsx|\.js)$/,
+        loader: 'babel-loader',
+        exclude: /(node_modules|bower_components)/
+      },
+      {
         test: /\.exec.js$/,
         use: [ 'script-loader' ]
       }
     ]
   },
   resolve: {
+    modules: [path.resolve('./src')],
     extensions: ['.json', '.js']
   },
   plugins: plugins,
@@ -68,18 +74,3 @@ const config = {
 
 module.exports = config;
 
-/*
-add externals just when goes to production
-externals: {
-    xlsx: {
-      root: 'XLSX',
-      commonjs2: 'xlsx',
-      commonjs: 'xlsx',
-      amd: 'xlsx'
-    }
-    externals: [
-    {
-      './cptable': 'var cptable'
-    }
-  ]
-  }*/

@@ -12,7 +12,7 @@ export default class ColumnMapper {
     return this._mapSingleRow(data)
   }
 
-  _mapSingleRow (row) {
+  _mapSingleRow (row, idx = 0) {
     let obj = {}
 
     Object.keys(this.tranformSettings).forEach((key) => {
@@ -34,6 +34,9 @@ export default class ColumnMapper {
         case 'transformNeighborhood' :
           col = transformSetting.value
           obj[key] = new AddressParser(row[col]).parseNeighborhood()
+          break
+        case 'autoincrement' : 
+          obj[key] = idx + 1
           break
       }
     })
