@@ -13,6 +13,20 @@ export default {
       D: 'Juan Perez'
     }
   ],
+  multipleRowsWithEmptyValues: [
+    {
+      A: 'Nuevo Leon',
+      B: '',
+      C: 'Rio Guadalquivir #422, Del Valle',
+      D: 'Jesús Lerma'
+    },
+    {
+      A: 'Nuevo Leon',
+      B: 'Monterrey',
+      C: '',
+      D: 'Juan Perez'
+    }
+  ],
   multipleRowsWithFixedValues: [
     {
       A: 'Nuevo Leon',

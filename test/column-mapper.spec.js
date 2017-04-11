@@ -9,6 +9,14 @@ chai.expect()
 const expect = chai.expect
 
 describe('ColumnMapper', () => {
+  context('with empty transformation configuration', () => {
+    let mapper = new ColumnMapper(inputs.matcherConfigurations.emptyTransformation)
+    it('should return empty values when matched value has empty value', () => {
+      let result = mapper.map(inputs.multipleRowsWithEmptyValues)
+      expect(result).to.deep.equal(expectedResult.multipleRowsWithEmptyValues)
+    })
+  })
+
   context('with simple matcher config', () => {
     let mapper = new ColumnMapper(inputs.matcherConfigurations.simple)
 

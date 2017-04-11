@@ -3,6 +3,7 @@ import AddressParser from './address-parser'
 export default class ColumnMapper {
   constructor (columnsToTransform) {
     this.tranformSettings = columnsToTransform
+    this.transformEmptyValue = this._extractTransformation('empty-values')
   }
 
   map (data) {
@@ -46,5 +47,23 @@ export default class ColumnMapper {
 
   _mapMultipleRows (rows) {
     return rows.map(this._mapSingleRow.bind(this))
+  }
+
+  _replaceEmptyValue (valueAtColumn) {
+    if (valueAtColumn === '') {
+      return this.transformEmptyValue
+    }
+
+    return valueAtColumn
+  }
+  _extractTransformation (transformationName) {
+    switch (transformationName) {
+      case 'empty-values' :
+        if (this.tranformSettings['emptyValues']) {
+          let tempValue = this.tranformSettings['emptyValues'].value
+          delete this.tranformSettings['emptyValues']
+          return tempValue
+        }
+    }
   }
 }
